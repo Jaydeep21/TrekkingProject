@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+        <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="">
+        <script src="{% static 'themekit/scripts/jquery.min.js' %}"></script>
+        <script src="{% static 'themekit/scripts/main.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'themekit/css/bootstrap-grid.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/glide.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/magnific-popup.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/content-box.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/contact-form.css' %}">
+        <link rel="stylesheet" href="{% static 'themekit/css/media-box.css' %}">
+        <link rel="stylesheet" href="{% static 'skin.css' %}">
+        <link rel="icon" href="{% static 'media/favicon.png' %}">
+        </head>
+        <body class="page-main">
+        <div id="preloader"></div>
+        <nav class="menu-classic menu-fixed menu-transparent light align-right" data-menu-anima="fade-in">
+            <div class="container">
+                <div class="menu-brand">
+                    <a href="#">
+                        <img class="logo-default scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
+                        <img class="logo-retina scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
+                        <img class="logo-default scroll-show" src="{% static 'media/logo-white-solid.svg' %}" alt="logo" />
+                        <img class="logo-retina scroll-show" src="{% static 'media/logo-white-solid.svg' %}" alt="logo" />
+                    </a>
+                </div>
+                <i class="menu-btn"></i>
+                <div class="menu-cnt">
+                    <ul id="main-menu">
+                        <li class="dropdown">
+                            <a href="/">Home</a>                            
+                        </li>
+                        <li class="dropdown">
+                            <a href="{% url 'main:treks' %}">Treks</a>                            
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'main:logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'main:login' %}">Login</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'main:signup' %}">Signup</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+            {% block main_content %} {% endblock %}
+        <footer class="light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h3>Alpins</h3>
+                        <p>Somewhere between the bottom of the climb and the summit is the answer to the mystery why we climb.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <h3>Contacts</h3>
+                        <ul class="icon-list icon-line">
+                            <li>San Pellegrino, BG, Italy</li>
+                            <li>hello@example.com</li>
+                            <li>02 123 333 444</li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="icon-links icon-social icon-links-grid social-colors">
+                            <a class="facebook"><i class="icon-facebook"></i></a>
+                            <a class="twitter"><i class="icon-twitter"></i></a>
+                            <a class="instagram"><i class="icon-instagram"></i></a>
+                            <a class="google"><i class="icon-google"></i></a>
+                        </div>
+                        <hr class="space-sm" />
+                        <p>Subscribe to our newsletter of follow us on the social channels to stay tuned.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bar">
+                <div class="container">
+                    <span>© 2023 Alpins - Hiking & Outdoor Template Handmade by Team 6.</span>
+                    <span><a href="contacts.html">Contact us</a> | <a href="#">Privacy policy</a></span>
+                </div>
+            </div>
+            <link rel="stylesheet" href="{% static 'themekit/media/icons/iconsmind/line-icons.min.css' %}">
+            <script src="{% static 'themekit/scripts/parallax.min.js' %}"></script>
+            <script src="{% static 'themekit/scripts/glide.min.js' %}"></script>
+            <script src="{% static 'themekit/scripts/magnific-popup.min.js' %}"></script>
+            <script src="{% static 'themekit/scripts/tab-accordion.js' %}"></script>
+            <script src="{% static 'themekit/scripts/imagesloaded.min.js' %}"></script>
+            <script src="{% static 'themekit/scripts/progress.js' %}" async></script>
+            <script src="{% static 'themekit/scripts/custom.js' %}" async></script>
+            <script src="{% static 'themekit/scripts/contact-form/contact-form.js' %}" async></script>
+            {% comment %} <script src="../../themekit.dev/tools/sidebar/sidebar.js" data-setting="alpins"></script> {% endcomment %}
+        </footer>
+    </body>
+
+</html>

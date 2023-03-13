@@ -1,0 +1,124 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Trek{% endblock %}
+{% block main_content %}
+<header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-10.jpg' %}" data-offset="0">
+    <div class="container">
+        <h1>The trek</h1>
+        <h2>Talent wins games, but teamwork win championships</h2>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'main:index' %}">Home</a></li>
+            <li><a href="{% url 'main:treks' %}">Treks</a></li>
+            <li><a href="{% url 'main:trek'  trek.pk   %}">TrekID </a></li>
+        </ol>
+    </div>
+</header>
+<main>
+    {{ trek }}
+    <section class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>
+                        {{ trek.description }}
+                    </p>
+                    <hr class="space-sm" /><hr class="space-xs" />
+                    <a href="#" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for $95</a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="cnt-box cnt-box-side">
+                        <a href="#" class="img-box"><img src="{% static 'media/user-7.jpg' %}" alt="" /></a>
+                        <div class="caption">
+                            <h2>Mountain guide</h2>
+                            <span class="extra-field">Richard Parker</span>
+                            <p>
+                                Lorem ipsum dolor sitamet consectetur adipisicing elito sed do eiusmod tempore.
+                            </p>
+                        </div>
+                    </div>
+                    <hr class="space-sm" />
+                    <table class="table table-grid table-border align-left text-bold table-10">
+                        <tbody>
+                            <tr>
+                                <td>Nationality<p>Italian</p></td>
+                                <td>Languages<p>English</p></td>
+                                <td>
+
+                                    <div class="icon-links icon-social icon-links-grid social-colors">
+                                        <a class="facebook"><i class="icon-facebook"></i></a>
+                                        <a class="twitter"><i class="icon-twitter"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-image light" data-parallax="scroll" data-bleed="100" data-image-src="{% static 'media/hd-1.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="counter counter-vertical counter-icon">
+                        <div>
+                            <h3>Data</h3>
+                            <p class="text-50 text-black no-margin">{{ trek.hike_date|date:"M d" }}</p> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div>
+                        <h3>Distance</h3>
+                        <p class="text-50 text-black no-margin">{{ trek.distance }} KM</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div>
+                        <h3>Group size</h3>
+                        <p class="text-50 text-black no-margin">{{ trek.group_size }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div>
+                        <h3>Duration</h3>
+                        <p class="text-50 text-black no-margin">{{ trek.duration }} DAYS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <table class="table table-columns">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="progress-circle light text-black" data-color="#dc1717" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
+                                </td>
+                                <td>
+                                    <h3>High difficulty</h3>
+                                    <p class="no-margin">Only alpinist and experts can do this trek ercitation ullamco laboris nisi uta aliquipo amaletese.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr class="space-sm" /> <hr class="space-xs" /> 
+                    <a href="#" class="btn btn-sm btn-circle btn-icon"><i class=" im-right-4"></i>Book for $95</a>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="text-list text-list-line">
+                        <li><b>Mountain</b><hr /><p>{{ trek.mountain }}</p></li>
+                        <li><b>Address</b><hr /><p>{{ trek.address }}</p></li>
+                        <li><b>Altitude</b><hr /><p>{{ trek.altitude }} m</p></li>
+                        <li><b>Area</b><hr /><p>{{ trek.area }} m2</p></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="space" />
+        </div>
+    </section>
+</main>
+{% endblock %}     

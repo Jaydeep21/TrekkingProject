@@ -1,0 +1,48 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Treks{% endblock %}
+{% block main_content %}
+<header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-3.jpg' %}" data-offset="0">
+    <div class="container">
+        <h1>Treks</h1>
+        <h2>It feels good to be lost in the right direction</h2>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'main:index' %}">Home</a></li>
+            <li><a href="{% url 'main:treks' %}">Treks</a></li>
+        </ol>
+    </div>
+</header>
+<main>
+    <section class="section-base section-color">
+        <div class="container">
+            <div class="maso-list gap-30" data-columns="3" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
+                <div class="maso-box">
+                    {% for i in treks %}
+                    <div class="maso-item cat-1">
+                        <div class="cnt-box cnt-box-info boxed" data-href="singleTrek/{{i.pk}}">
+                            <div class="extra-field">${{ i.cost }}</div>
+                            <a href="singleTrek/{{i.pk}}" class="img-box"><img src="{% static 'media/image-7.jpg' %}" alt="" /></a>
+                            <div class="caption">
+                                <h2>{{ i.mountain }}</h2>
+                                <div class="cnt-info">
+                                    <div><span>Days</span><span>{{ i.duration }}</span></div>
+                                    <div><span>Group size</span><span>{{ i.group_size }}</span></div>
+                                    <div><span>Difficulty</span><span>{{ i.level }}</span></div>
+                                </div>
+                                <p>
+                                    {{ i.description|slice:":100" }}...
+                                </p>
+                                <div class="bottom-info">
+                                    {{ i.address }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}                    
+                </div>
+            </div>
+            <hr class="space" />
+        </div>
+    </section>
+</main>
+{% endblock %}    

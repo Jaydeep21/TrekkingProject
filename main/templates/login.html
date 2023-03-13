@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Login{% endblock %}
+{% block main_content %}
+
+<header class="header-base">
+    <div class="container">
+        <h1>Login</h1>
+        <h2>Welcome Back</h2>
+    </div>
+</header>
+<main>
+    <section class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="../login" class="form-box" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-sm" type="submit">Login</button>
+                        {% if error %}
+                        <div class="error-box">
+                            <div class="alert alert-warning">{{ error }}</div>
+                        </div>
+                        {% endif%}
+                    </form>
+                </div>
+            </div>                        
+        </div>
+    </section>
+</main>
+
+{% endblock %}   
