@@ -7,6 +7,7 @@ urlpatterns = [
     path('treks', views.treks, name='treks'),
     path('login', views.Login.as_view(), name='login'),
     path('logout', views.logout_view,  name='logout'),
+    path('booking/<int:id>', views.booking,  name='booking'),
     path('signup', views.Signup.as_view(), name='signup'),
     path('singleTrek/<int:id>', views.singleTrek, name='trek'),
 ]

@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from .forms import  UserLoginForm
-from .models import Customer, Hike
+from .models import Customer, Hike, Guide, EnrolledHikers
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def base(request):
@@ -13,16 +14,30 @@ def index(request):
     return render(request, 'index.html')
 
 def singleTrek(request, id):
-    trek = Hike.objects.get(pk = id)
-    if trek is None:
+    trek = get_object_or_404(Hike , pk = id)
+    user = get_object_or_404(Guide, pk=trek.user_id  )
+    print("User id", user)
+    if trek is None or user is None:
         return redirect('/treks')
-    return render(request, 'treks-single.html', {"trek": trek})
+    return render(request, 'treks-single.html', {"trek": trek, "user": user})
 
 def treks(request):
     return render(request, 'treks.html', {"treks": Hike.objects.all()})
 
 def logout_view(request):
     logout(request)
+    return redirect('/')
+
+@login_required
+def booking(request, id):
+    hike = Hike.objects.get(pk=id)
+    print("User", request.user.pk)
+    if hike is None:
+        return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, no such trek exists"})
+    enrolledHikers = EnrolledHikers.objects.create(hike = hike, user = Customer.objects.get(pk = request.user.pk))
+    # enrolledHikers.hike(hike)   
+    # enrolledHikers.customer(request.user) 
+    # enrolledHikers.save()
     return redirect('/')
 
 class Login(View):

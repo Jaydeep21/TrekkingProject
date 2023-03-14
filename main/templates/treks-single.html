@@ -14,7 +14,6 @@
     </div>
 </header>
 <main>
-    {{ trek }}
     <section class="section-base">
         <div class="container">
             <div class="row">
@@ -25,14 +24,15 @@
                     <hr class="space-sm" /><hr class="space-xs" />
                     <a href="#" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for $95</a>
                 </div>
+                {% if user %}
                 <div class="col-lg-6">
                     <div class="cnt-box cnt-box-side">
-                        <a href="#" class="img-box"><img src="{% static 'media/user-7.jpg' %}" alt="" /></a>
+                        <a href="#" class="img-box"><img src="{{ user.profile_image }}" alt="" /></a>
                         <div class="caption">
                             <h2>Mountain guide</h2>
-                            <span class="extra-field">Richard Parker</span>
+                            <span class="extra-field">{{ user.first_name }} {{ user.last_name }}</span>
                             <p>
-                                Lorem ipsum dolor sitamet consectetur adipisicing elito sed do eiusmod tempore.
+                                {{ user.description }}
                             </p>
                         </div>
                     </div>
@@ -40,19 +40,20 @@
                     <table class="table table-grid table-border align-left text-bold table-10">
                         <tbody>
                             <tr>
-                                <td>Nationality<p>Italian</p></td>
-                                <td>Languages<p>English</p></td>
+                                <td>Nationality<p>{{ user.nationality }}</p></td>
+                                <td>Languages<p>{{ user.language }}</p></td>
                                 <td>
 
                                     <div class="icon-links icon-social icon-links-grid social-colors">
-                                        <a class="facebook"><i class="icon-facebook"></i></a>
-                                        <a class="twitter"><i class="icon-twitter"></i></a>
+                                        <a class="facebook" href="{{ user.facebook_url}}"><i class="icon-facebook"></i></a>
+                                        <a class="twitter" href="{{ user.twitter_url}}"><i class="icon-twitter"></i></a>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -96,17 +97,23 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="progress-circle light text-black" data-color="#dc1717" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
+                                    {% if trek.level == "High" %}
+                                        <div class="progress-circle light text-black" data-color="#dc1717" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
+                                    {% elif trek.level == "Medium" %}
+                                        <div class="progress-circle light text-black" data-color="#379cf4" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
+                                    {% elif trek.level == "Low" %}
+                                        <div class="progress-circle light text-black" data-color="#2aa768" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
+                                    {% endif %}
                                 </td>
                                 <td>
-                                    <h3>High difficulty</h3>
+                                    <h3>{{ trek.level }} difficulty</h3>
                                     <p class="no-margin">Only alpinist and experts can do this trek ercitation ullamco laboris nisi uta aliquipo amaletese.</p>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <hr class="space-sm" /> <hr class="space-xs" /> 
-                    <a href="#" class="btn btn-sm btn-circle btn-icon"><i class=" im-right-4"></i>Book for $95</a>
+                    <a href="{% url 'main:booking' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class=" im-right-4"></i>Book for ${{ trek.cost }}</a>
                 </div>
                 <div class="col-lg-6">
                     <ul class="text-list text-list-line">

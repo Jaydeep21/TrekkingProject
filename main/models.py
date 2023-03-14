@@ -35,7 +35,7 @@ class Hike(models.Model):
     area = models.IntegerField(default=1)
     cost = models.IntegerField(default=1)
     # state = models.CharField(max_length=2, choices=STATES, default='AB')
-    level = models.CharField(max_length=100, choices=LEVEL, default='Easy')
+    level = models.CharField(max_length=100, choices=LEVEL, default='High')
     hike_date = models.DateField()
     # time = models.TimeField(auto_now=False, auto_now_add=False)
     gmap_url = models.CharField(max_length=10000)
