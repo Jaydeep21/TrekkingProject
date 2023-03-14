@@ -24,11 +24,12 @@ def singleTrek(request, id):
 def treks(request):
     return render(request, 'treks.html', {"treks": Hike.objects.all()})
 
+@login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('/')
 
-@login_required
+@login_required(login_url='login')
 def booking(request, id):
     hike = Hike.objects.get(pk=id)
     print("User", request.user.pk)
