@@ -10,4 +10,5 @@ urlpatterns = [
     path('booking/<int:id>', views.booking,  name='booking'),
     path('signup', views.Signup.as_view(), name='signup'),
     path('singleTrek/<int:id>', views.singleTrek, name='trek'),
+    # path('email', views.email, name='email'),
 ]

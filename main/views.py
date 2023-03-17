@@ -5,6 +5,11 @@ from .forms import  UserLoginForm
 from .models import Customer, Hike, Guide, EnrolledHikers
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import get_template
+from django.views.decorators.debug import sensitive_variables
+from django.conf import settings
+
 
 # Create your views here.
 def base(request):
@@ -36,9 +41,8 @@ def booking(request, id):
     if hike is None:
         return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, no such trek exists"})
     enrolledHikers = EnrolledHikers.objects.create(hike = hike, user = Customer.objects.get(pk = request.user.pk))
-    # enrolledHikers.hike(hike)   
-    # enrolledHikers.customer(request.user) 
-    # enrolledHikers.save()
+    if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):            
+        email(request, enrolledHikers.pk)
     return redirect('/')
 
 class Login(View):
@@ -52,9 +56,7 @@ class Login(View):
     def post(self, request, *args, **kwargs):
         email = request.POST['email']
         password = request.POST['password']
-        print(email, password)
         user = authenticate(username=email, password=password)
-        print(user)
         if user is not None:
             login(request, user)
             # Redirect to a success page.
@@ -82,3 +84,17 @@ class Signup(View):
         user.password = make_password(request.POST.get("password"))
         user.save()
         return redirect('/', {"success": "User details stored successfully"})
+
+@login_required
+def email(request, id):
+    hike = EnrolledHikers.objects.get(pk=id)
+    tx = float("{:.2f}".format(hike.hike.cost * .13))
+    total = tx + hike.hike.cost
+    htmly = get_template('email.html')
+    subject, from_email, to = 'Booking Confirnmation', 'from@example.com', request.user.email
+    html_content = htmly.render({"hike": hike, "tax": tx, "total":total })
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.content_subtype = "html"
+    msg.send()
+    print(msg)
+    # return render(request, 'email.html', {"hike": hike, "tax": tx, "total":total } )
