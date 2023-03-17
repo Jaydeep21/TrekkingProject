@@ -48,3 +48,6 @@ class EnrolledHikers(models.Model):
     hike = models.ForeignKey(Hike,on_delete=models.CASCADE, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ('user', 'hike',)

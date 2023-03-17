@@ -26,6 +26,7 @@ def singleTrek(request, id):
         return redirect('/treks')
     return render(request, 'treks-single.html', {"trek": trek, "user": user})
 
+@login_required(login_url='login')
 def treks(request):
     return render(request, 'treks.html', {"treks": Hike.objects.all()})
 
@@ -36,6 +37,8 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def booking(request, id):
+    if EnrolledHikers.objects.get(user=request.user.pk, hike = id):
+       return redirect(request.META.get('HTTP_REFERER', '/'), {"error", "Sorry you've already enrolled for this trek"})
     hike = Hike.objects.get(pk=id)
     print("User", request.user.pk)
     if hike is None:
