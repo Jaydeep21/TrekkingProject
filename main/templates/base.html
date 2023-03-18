@@ -26,7 +26,7 @@
         <nav class="menu-classic menu-fixed menu-transparent light align-right" data-menu-anima="fade-in">
             <div class="container">
                 <div class="menu-brand">
-                    <a href="#">
+                    <a href=""{% url 'main:index' %}"">
                         <img class="logo-default scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-retina scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-default scroll-show" src="{% static 'media/logo-white-solid.svg' %}" alt="logo" />
@@ -37,12 +37,15 @@
                 <div class="menu-cnt">
                     <ul id="main-menu">
                         <li class="dropdown">
-                            <a href="/">Home</a>                            
+                            <a href="{% url 'main:index' %}">Home</a>                            
                         </li>
                         <li class="dropdown">
                             <a href="{% url 'main:treks' %}">Treks</a>                            
                         </li>
                         {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'main:bookings' %}">Bookings</a>
+                            </li>
                             <li>
                                 <a href="{% url 'main:logout' %}">Logout</a>
                             </li>

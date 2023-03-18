@@ -9,7 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.views.decorators.debug import sensitive_variables
 from django.conf import settings
-
+from django.db.models import F
 
 # Create your views here.
 def base(request):
@@ -20,30 +20,58 @@ def index(request):
 
 def singleTrek(request, id):
     trek = get_object_or_404(Hike , pk = id)
-    user = get_object_or_404(Guide, pk=trek.user_id  )
+    user = get_object_or_404(Guide, pk=trek.user_id )
     print("User id", user)
     if trek is None or user is None:
         return redirect('/treks')
     return render(request, 'treks-single.html', {"trek": trek, "user": user})
 
-@login_required(login_url='login')
+@login_required(login_url='main:login')
 def treks(request):
-    return render(request, 'treks.html', {"treks": Hike.objects.all()})
+    # enrolledHikers brings list of treks which user has enrolled into
+    enrolledHikers = EnrolledHikers.objects.filter(user = request.user.pk).values_list('hike')
+        
+    # occupied_treks searches for all the treks which are already full and removes treks which user has already enrolled to 
+    occupied_treks = Hike.objects.filter(available_capcity__gte = F('group_size')).exclude(pk__in = enrolledHikers)
+    
+    # available_treks first filters which treks are available and excludes all the treks which user is already a part of
+    available_treks = Hike.objects.filter(group_size__gt = F('available_capcity')).exclude(pk__in = enrolledHikers)
 
-@login_required(login_url='login')
+    return render(request, 'treks.html', {"treks": available_treks, "occupied_treks": occupied_treks})
+
+@login_required(login_url='main:login')
+def myBooking(request):
+
+    # enrolledHikers brings list of treks which user has enrolled into
+    enrolledHikers = EnrolledHikers.objects.filter(user = request.user.pk).values_list('hike')
+    
+    # booked_treks searches all the treks which logged in user is enrolled to
+    booked_treks = Hike.objects.filter(pk__in = enrolledHikers)
+
+    return render(request, 'booking.html' ,{"booked_treks": booked_treks})
+
+@login_required(login_url='main:login')
 def logout_view(request):
     logout(request)
     return redirect('/')
 
-@login_required(login_url='login')
+@login_required(login_url='main:login')
 def booking(request, id):
-    if EnrolledHikers.objects.get(user=request.user.pk, hike = id):
+    try:
+        hikeCheck = EnrolledHikers.objects.get(user=request.user.pk, hike = id)
+    except EnrolledHikers.DoesNotExist:
+        hikeCheck = None
+    if hikeCheck is not None:
        return redirect(request.META.get('HTTP_REFERER', '/'), {"error", "Sorry you've already enrolled for this trek"})
     hike = Hike.objects.get(pk=id)
     print("User", request.user.pk)
     if hike is None:
         return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, no such trek exists"})
+    if hike.available_capcity >= hike.group_size:
+        return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, you're late group capacity is full"})        
     enrolledHikers = EnrolledHikers.objects.create(hike = hike, user = Customer.objects.get(pk = request.user.pk))
+    hike.available_capcity(int(hike.available_capcity)+1)
+    hike.save()
     if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):            
         email(request, enrolledHikers.pk)
     return redirect('/')
@@ -88,7 +116,7 @@ class Signup(View):
         user.save()
         return redirect('/', {"success": "User details stored successfully"})
 
-@login_required
+@login_required(login_url='main:login')
 def email(request, id):
     hike = EnrolledHikers.objects.get(pk=id)
     tx = float("{:.2f}".format(hike.hike.cost * .13))
