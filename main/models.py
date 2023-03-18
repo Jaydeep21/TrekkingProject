@@ -11,7 +11,8 @@ class Guide(User):
     phone = PhoneNumberField(null = True, blank= True)
     age = models.IntegerField( default=18, validators=[MaxValueValidator(50), MinValueValidator(18)])
     nationality = models.CharField(max_length=100)
-    profile_image = models.CharField(max_length=10000)
+    profile_image = models.CharField(max_length=10000, null = True, blank=True)
+    image = models.ImageField(upload_to='images/Guide/', null = True, blank=True)
     facebook_url = models.CharField(max_length=1000)
     twitter_url = models.CharField(max_length=1000)
     description = models.CharField(max_length=1000)
@@ -39,6 +40,8 @@ class Hike(models.Model):
     available_capcity = models.IntegerField(default=0)
     gmap_url = models.CharField(max_length=10000)
     user_id = models.ForeignKey(Guide, on_delete= models.CASCADE, null=False)     
+    image = models.ImageField(upload_to='images/Hikes/',null = True, blank=True)
+    image_name = models.CharField(max_length=500, null = True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

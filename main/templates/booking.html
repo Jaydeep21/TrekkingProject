@@ -26,7 +26,9 @@
                     <div class="maso-item cat-1">
                         <div class="cnt-box cnt-box-info boxed" data-href="singleTrek/{{i.pk}}">
                             <div class="extra-field">${{ i.cost }}</div>
-                            <a href="singleTrek/{{i.pk}}" class="img-box"><img src="{% static 'media/image-7.jpg' %}" alt="" /></a>
+                            <a href="singleTrek/{{i.pk}}" class="img-box">
+                                <img src="{{ i.image.url }}" alt="" />
+                            </a>
                             <div class="caption">
                                 <h2>{{ i.mountain }}</h2>
                                 <div class="cnt-info">
