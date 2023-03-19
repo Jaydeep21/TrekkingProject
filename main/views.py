@@ -16,7 +16,7 @@ def base(request):
     return render(request, 'base.html')
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {"treks": Hike.objects.all()})
 
 def singleTrek(request, id):
     trek = get_object_or_404(Hike , pk = id)
@@ -74,7 +74,7 @@ def booking(request, id):
     hike.save()
     if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):            
         email(request, enrolledHikers.pk)
-    return redirect('/')
+    return redirect('/bookings')
 
 class Login(View):
     form = UserLoginForm

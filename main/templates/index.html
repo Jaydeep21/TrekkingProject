@@ -91,66 +91,28 @@
             <div class="row">
                 <div class="col-lg-8">
                     <ul class="slider controls-right" data-options="type:carousel,nav:true,perView:2,perViewSm:1,gap:30,controls:out">
+                    {% for i in treks %}
                         <li>
                             <div class="cnt-box cnt-box-info" data-href="treks-single.html">
-                                <div class="extra-field">From $49</div>
-                                <a href="treks-single.html" class="img-box"><img src="{% static 'media/image-5.jpg' %}" alt="" /></a>
+                                <div class="extra-field">Just ${{ i.cost }}</div>
+                                <a href="singleTrek/{{i.pk}}" class="img-box"><img src="{{ i.image.url }}" alt="" /></a>
                                 <div class="caption">
-                                    <h2>Bianco Excursion</h2>
+                                    <h2>{{ i.mountain }}</h2>
                                     <div class="cnt-info">
-                                        <div><span>Days</span><span>3</span></div>
-                                        <div><span>Group size</span><span>10</span></div>
-                                        <div><span>Difficulty</span><span>Easy</span></div>
+                                        <div><span>Days</span><span>{{ i.duration }}3</span></div>
+                                        <div><span>Group size</span><span>{{ i.group_size }}</span></div>
+                                        <div><span>Difficulty</span><span>{{ i.level }}</span></div>
                                     </div>
                                     <p>
-                                        Monte bianco is a mountain located in the deep nature and rivers.
+                                        {{ i.description|slice:":100" }}...
                                     </p>
                                     <div class="bottom-info">
-                                        Monte bianco, Alpes, Italy
+                                        {{ i.address }}
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <div class="cnt-box cnt-box-info" data-href="treks-single.html">
-                                <div class="extra-field">From $89</div>
-                                <a href="treks-single.html" class="img-box"><img src="{% static 'media/image-6.jpg' %}" alt="" /></a>
-                                <div class="caption">
-                                    <h2>Civetta Trekking</h2>
-                                    <div class="cnt-info">
-                                        <div><span>Days</span><span>5</span></div>
-                                        <div><span>Group size</span><span>5</span></div>
-                                        <div><span>Difficulty</span><span>Medium</span></div>
-                                    </div>
-                                    <p>
-                                        Civetta is a mountain located in alps and is one of the most famous.
-                                    </p>
-                                    <div class="bottom-info">
-                                        Civetta, Alpes, Italy
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="cnt-box cnt-box-info" data-href="treks-single.html">
-                                <div class="extra-field">From $89</div>
-                                <a href="treks-single.html" class="img-box"><img src="{% static 'media/image-7.jpg' %}" alt="" /></a>
-                                <div class="caption">
-                                    <h2>Nevegal Trekking</h2>
-                                    <div class="cnt-info">
-                                        <div><span>Days</span><span>1</span></div>
-                                        <div><span>Group size</span><span>15</span></div>
-                                        <div><span>Difficulty</span><span>Medium</span></div>
-                                    </div>
-                                    <p>
-                                        Nevegal is a mountain near a great and friendly mountain village.
-                                    </p>
-                                    <div class="bottom-info">
-                                        Civetta, Alpes, Italy
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
+                        </li>                        
+                    {% endfor %}                    
                     </ul>
                 </div>
                 <div class="col-lg-4">
@@ -163,7 +125,7 @@
                         Lorem ipsum dolor sit amet consectetur adipiscing elitsed do eiusmod tempor incididunt utlabore et dolore magna aliqua.
                         Utenim ad minim veniam quiso.
                     </p>
-                    <a href="contacts.html" class="btn btn-circle btn-xs">Join us now</a>
+                    <a href="treks" class="btn btn-circle btn-xs">Join us now</a>
                 </div>
             </div>
         </div>
@@ -177,16 +139,13 @@
             <div class="row">
                 <div class="col-lg-3">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipiscing elitsed do esectetur adipiscing elitsed do eiusmoiusmod tempor incididunt utlabore et dolore magna aliqua.
-                        Utenim ad minim veniam quis nostrud exercitation ullamco laboris scing elitsed do esectetur adipiscing elite nature.
+                        With years of experience in organizing group trekking events, we have perfected the art of creating unique and unforgettable experiences for our participants. Our team of skilled and knowledgeable guides are passionate about sharing their love of the outdoors with others and ensuring that every trek is a success.
                     </p>
                 </div>
                 <div class="col-lg-3 no-margin-md">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipiscing el adipiscing sscing elitsed do esectetur adipiscing eliectetur adipiscing elitsed do eiusmoelitsed do eiusmod tempor incididusmod titsed do eiusmod tempore.
+                        Whether you are looking to explore the wilderness with friends or make new connections with like-minded adventurers, we have the perfect trek for you. Join us on our next adventure and experience the thrill of exploring the great outdoors in a whole new way.
                     </p>
-                    <hr class="space-sm" />
-                    <a href="about.html" class="btn-text">Read more</a>
                 </div>
                 <div class="col-lg-6">
                     <ul class="accordion-list" data-open="1">
@@ -194,8 +153,7 @@
                             <a href="#">Our mountains and our location</a>
                             <div class="content">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipiscing elitsed do eiusmod tempor incididunt utlabore et dolore magna aliqua.
-                                    Utenim ad minim veniam quis nostrud exercitation.
+                                    Canada is home to several majestic mountain ranges, including the Rocky Mountains, the Coast Mountains, and the Canadian Appalachians. These ranges boast some of the most stunning peaks in North America, such as Mount Robson, Mount Assiniboine, and Mount Logan.
                                 </p>
                             </div>
                         </li>
@@ -203,8 +161,7 @@
                             <a href="#">About our treks and trips</a>
                             <div class="content">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipiscing elitsed do eiusmod tempor incididunt utlabore et dolore magna aliqua.
-                                    Utenim ad minim veniam quis nostrud exercitation .
+                                    At Alpins, we offer a range of trekking and hiking adventures to suit every level of experience, from beginners to seasoned veterans. Our treks take you through some of the most stunning and remote landscapes in the country, allowing you to immerse yourself in nature and escape from the hustle and bustle of everyday life.
                                 </p>
                             </div>
                         </li>
@@ -212,9 +169,7 @@
                             <a href="#">About our team and guests</a>
                             <div class="content">
                                 <p>
-                                    Lorem ipsum dolor sit amet consectetur adipiscing elitsed do eiusmod tempor incididunt utlabore et dolore magna aliqua.
-                                    Utenim ad minim veniam quis nostrud exercitation.
-                                </p>
+                                    We offer experienced and passionate individuals who lead the group trekking/hiking events, showcasing their expertise and commitment to providing a safe and enjoyable outdoor experience for all participants.                                </p>
                             </div>
                         </li>
                     </ul>
@@ -222,7 +177,7 @@
             </div>
         </div>
     </section>
-    <section class="section-slider alpins-slider light section-full-width-left" data-slider-parallax="true" data-interval="0">
+    {% comment %} <section class="section-slider alpins-slider light section-full-width-left" data-slider-parallax="true" data-interval="0">
         <div class="background-slider">
             <div class="active" style="background-image:url({% static 'media/hd-3.jpg' %})"></div>
             <div style="background-image:url({% static 'media/hd-4.jpg' %})"></div>
@@ -311,7 +266,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> {% endcomment %}
     <section class="section-base">
         <div class="container">
             <div class="title align-center">
