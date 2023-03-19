@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Alpins | Treks{% endblock %}
 {% block main_content %}
+<script src="{% static 'themekit/scripts/isotope.min.js' %}"></script>
 <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-3.jpg' %}" data-offset="0">
     <div class="container">
         <h1>Treks</h1>
@@ -15,7 +16,7 @@
 <main>
     <section class="section-base section-color">
         <div class="container">
-            <div class="maso-list gap-30" data-columns="3" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
+            <div class="maso-list gap-30" data-columns="3" data-columns-lg="2" data-columns-sm="1">
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Upcoming available treks</a></li>                                            
@@ -53,6 +54,7 @@
             <hr class="space" />
         </div>
     </section>
+    {% if occupied_treks %}
     <section class="section-base section-color">
         <div class="container">
             <div class="maso-list gap-30" data-columns="3" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
@@ -89,5 +91,6 @@
             <hr class="space" />
         </div>
     </section>
+    {% endif %}
 </main>
 {% endblock %}    
