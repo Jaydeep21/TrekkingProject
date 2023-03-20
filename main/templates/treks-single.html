@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{% url 'main:index' %}">Home</a></li>
             <li><a href="{% url 'main:treks' %}">Treks</a></li>
-            <li><a href="{% url 'main:trek'  trek.pk   %}">TrekID </a></li>
+            <li><a href="{% url 'main:trek'  trek.pk   %}">{{ trek.pk }} </a></li>
         </ol>
     </div>
 </header>
