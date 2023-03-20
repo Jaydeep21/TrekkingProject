@@ -64,7 +64,6 @@ def booking(request, id):
     if hikeCheck is not None:
        return redirect(request.META.get('HTTP_REFERER', '/'), {"error", "Sorry you've already enrolled for this trek"})
     hike = Hike.objects.get(pk=id)
-    print("User", request.user.pk)
     if hike is None:
         return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, no such trek exists"})
     if hike.available_capcity >= hike.group_size:

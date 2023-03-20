@@ -14,8 +14,14 @@
     </div>
 </header>
 <main>
-    <section class="section-base">
+    <section class="section-base">        
         <div class="container">
+            {% if error %}
+                <div class="error-box">
+                    <div class="alert alert-warning">asdfasdf</div>
+                </div>
+            {% endif %}
+            <br><br>
             <div class="row">
                 <div class="col-lg-6">
                     <p>
