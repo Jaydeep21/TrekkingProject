@@ -122,7 +122,7 @@ def email(request, id):
     tx = float("{:.2f}".format(hike.hike.cost * .13))
     total = tx + hike.hike.cost
     htmly = get_template('email.html')
-    subject, from_email, to = 'Booking Confirnmation', 'from@example.com', request.user.email
+    subject, from_email, to = 'Booking Confirmation', 'from@example.com', request.user.email
     html_content = htmly.render({"hike": hike, "tax": tx, "total":total })
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.content_subtype = "html"
