@@ -70,7 +70,7 @@ def booking(request, id):
     if hike.available_capcity >= hike.group_size:
         return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, you're late group capacity is full"})        
     enrolledHikers = EnrolledHikers.objects.create(hike = hike, user = Customer.objects.get(pk = request.user.pk))
-    hike.available_capcity(int(hike.available_capcity)+1)
+    hike.available_capcity = (int(hike.available_capcity)+1)
     hike.save()
     if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):            
         email(request, enrolledHikers.pk)
