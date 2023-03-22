@@ -65,7 +65,7 @@
     {% if occupied_treks %}
     <section class="section-base section-color">
         <div class="container">
-            <div class="maso-list gap-30" data-columns="2" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
+            <div class="maso-list gap-30" data-columns="2" data-columns-lg="1" data-columns-sm="1">
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Upcoming booked treks</a></li>                                            
@@ -76,7 +76,7 @@
                     <div class="maso-item cat-1">
                         <div class="cnt-box cnt-box-info boxed" >
                             <div class="extra-field">${{ i.cost }}</div>
-                            <img src="{{ i.image.url }}" alt="" />
+                            <a href="#" class="img-box"><img src="{{ i.image.url }}" alt="" /></a>
                             <div class="caption">
                                 <h2>{{ i.mountain }}</h2>
                                 <div class="cnt-info">

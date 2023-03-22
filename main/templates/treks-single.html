@@ -1,5 +1,6 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block title %}Alpins | Trek{% endblock %}
 {% block main_content %}
 <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-10.jpg' %}" data-offset="0">
@@ -139,6 +140,7 @@
                         <li><b>Address</b><hr /><a href="{{ trek.gmap_url }}"><p>{{ trek.address }}</p></a></li>
                         <li><b>Altitude</b><hr /><p>{{ trek.altitude }} m</p></li>
                         <li><b>Area</b><hr /><p>{{ trek.area }} m2</p></li>
+                        <li><b>Spaces Left</b><hr /><p>{{ trek.group_size|subtract:trek.available_capcity }}</p></li>
                     </ul>
                 </div>
             </div>
