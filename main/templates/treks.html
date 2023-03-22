@@ -1,5 +1,6 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block title %}Alpins | Treks{% endblock %}
 {% block main_content %}
 <script src="{% static 'themekit/scripts/isotope.min.js' %}"></script>
@@ -13,15 +14,21 @@
         </ol>
     </div>
 </header>
-<main>
-    <section class="section-base section-color">
-        <div class="container">
-            <div class="maso-list gap-30" data-columns="3" data-columns-lg="2" data-columns-sm="1">
+<main>    
+    <section class="section-base section-color">        
+        <div class="container">                 
+            <div class="maso-list gap-30" data-columns="2" data-columns-lg="1" data-columns-sm="1">
                 <div class="menu-inner">
                     <ul>
-                        <li class="active"><a data-filter="maso-item" href="#">Upcoming available treks</a></li>                                            
+                        <li class="active"><a data-filter="maso-item" href="#">Upcoming available treks</a></li>                                                                    
                     </ul>
                 </div>
+                <form>
+                    <div class="input-text-btn">
+                        <input class="input-text" type="text" placeholder="Enter text to search" /><input type="submit" value="Search" class="btn"></input>
+                    </div>
+                </form> 
+                <br>
                 <div class="maso-box">
                     {% for i in treks %}
                     <div class="maso-item cat-1">
@@ -38,6 +45,7 @@
                                     <div><span>Days</span><span>{{ i.duration }}</span></div>
                                     <div><span>Group size</span><span>{{ i.group_size }}</span></div>
                                     <div><span>Difficulty</span><span>{{ i.level }}</span></div>
+                                    <div><span>Spaces left</span><span>{{ i.group_size|subtract:i.available_capcity }}</span></div>
                                 </div>
                                 <p>
                                     {{ i.description|slice:":100" }}...
@@ -57,7 +65,7 @@
     {% if occupied_treks %}
     <section class="section-base section-color">
         <div class="container">
-            <div class="maso-list gap-30" data-columns="3" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
+            <div class="maso-list gap-30" data-columns="2" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Upcoming booked treks</a></li>                                            
@@ -75,6 +83,7 @@
                                     <div><span>Days</span><span>{{ i.duration }}</span></div>
                                     <div><span>Group size</span><span>{{ i.group_size }}</span></div>
                                     <div><span>Difficulty</span><span>{{ i.level }}</span></div>
+                                    <div><span>Spaces left</span><span>0</span></div>
                                 </div>
                                 <p>
                                     {{ i.description|slice:":100" }}...

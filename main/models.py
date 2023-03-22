@@ -7,6 +7,9 @@ class Customer(User):
     phone = PhoneNumberField(null = True, blank= True)
     age = models.IntegerField( default=18, validators=[MaxValueValidator(50), MinValueValidator(18)])
 
+    def __str__(self):
+        return "Customer ID: "+ str(self.pk) + " | Name: " + self.first_name +" " + self.last_name
+
 class Guide(User):
     phone = PhoneNumberField(null = True, blank= True)
     age = models.IntegerField( default=18, validators=[MaxValueValidator(50), MinValueValidator(18)])
@@ -17,6 +20,9 @@ class Guide(User):
     twitter_url = models.CharField(max_length=1000)
     description = models.CharField(max_length=1000)
     language = models.CharField(max_length=100)
+
+    def __str__(self):
+        return "Guide ID: "+ str(self.pk) + " | Guide Name: " + self.first_name + " " + self.last_name
 
 # Create your models here.
 class Hike(models.Model):    
@@ -45,11 +51,17 @@ class Hike(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "Hike ID: "+ str(self.pk) + " | Mountain: " + self.mountain 
+
 class EnrolledHikers(models.Model):
     user = models.ForeignKey(Customer,on_delete=models.CASCADE, null=False)
     hike = models.ForeignKey(Hike,on_delete=models.CASCADE, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    def __str__(self):
+        return "Relation ID: "+ str(self.pk)  + " | " + str(self.hike)+ " | " + str(self.user)
+
     class Meta:
         unique_together = ('user', 'hike',)

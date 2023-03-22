@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block title %}Alpins | Bookings{% endblock %}
 {% block main_content %}
 <script src="{% static 'themekit/scripts/isotope.min.js' %}"></script>
@@ -16,7 +17,7 @@
 <main>
     <section class="section-base section-color">
         <div class="container">
-            <div class="maso-list gap-30" data-columns="3" data-columns-md="3" data-columns-lg="2" data-columns-sm="1">
+            <div class="maso-list gap-30" data-columns="2" data-columns-lg="2" data-columns-sm="1">
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Your Bookings</a></li>                                            
@@ -36,6 +37,7 @@
                                     <div><span>Days</span><span>{{ i.duration }}</span></div>
                                     <div><span>Group size</span><span>{{ i.group_size }}</span></div>
                                     <div><span>Difficulty</span><span>{{ i.level }}</span></div>
+                                    <div><span>Spaces left</span><span>{{ i.group_size|subtract:i.available_capcity }}</span></div>                                    
                                 </div>
                                 <p>
                                     {{ i.description|slice:":100" }}...

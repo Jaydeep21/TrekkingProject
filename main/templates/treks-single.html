@@ -13,7 +13,7 @@
         </ol>
     </div>
 </header>
-<main>
+<main>    
     <section class="section-base">        
         <div class="container">
             {% if error %}
@@ -102,19 +102,31 @@
                     <table class="table table-columns">
                         <tbody>
                             <tr>
-                                <td>
-                                    {% if trek.level == "High" %}
+                                {% if trek.level == "High" %}
+                                    <td>                                    
                                         <div class="progress-circle light text-black" data-color="#dc1717" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
-                                    {% elif trek.level == "Medium" %}
+                                    </td>
+                                    <td>
+                                        <h3>{{ trek.level }} difficulty</h3>
+                                        <p class="no-margin">Only alpinist and experts can do this trek ercitation.</p>
+                                    </td>
+                                {% elif trek.level == "Medium" %}
+                                    <td>
                                         <div class="progress-circle light text-black" data-color="#379cf4" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
-                                    {% elif trek.level == "Low" %}
+                                    </td>
+                                    <td>
+                                        <h3>{{ trek.level }} difficulty</h3>
+                                        <p class="no-margin">Anyone young, fit and enthuziastic individuals can do this trek ercitation.</p>
+                                    </td>
+                                {% elif trek.level == "Low" %}
+                                    <td>
                                         <div class="progress-circle light text-black" data-color="#2aa768" data-thickness="6" data-progress="100" data-size="85" data-size-md="85" data-linecap="round"></div>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <h3>{{ trek.level }} difficulty</h3>
-                                    <p class="no-margin">Only alpinist and experts can do this trek ercitation ullamco laboris nisi uta aliquipo amaletese.</p>
-                                </td>
+                                    </td>
+                                    <td>
+                                        <h3>{{ trek.level }} difficulty</h3>
+                                        <p class="no-margin">All age groups can do this trek ercitation.</p>
+                                    </td>
+                                {% endif %}                                
                             </tr>
                         </tbody>
                     </table>
