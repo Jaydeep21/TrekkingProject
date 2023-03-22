@@ -128,3 +128,6 @@ def email(request, id):
     msg.send()
     print(msg)
     # return render(request, 'email.html', {"hike": hike, "tax": tx, "total":total } )
+
+def teams(request):
+    return render(request, "team.html", {"team": Guide.objects.all()})

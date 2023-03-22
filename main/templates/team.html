@@ -1,0 +1,86 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Team{% endblock %}
+{% block main_content %}
+    <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-3.jpg' %}" data-offset="0">
+        <div class="container">
+            <h1>Our team</h1>
+            <h2>Talent wins games, but teamwork win championships</h2>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'main:index' %}">Home</a></li>
+                <li><a href="{% url 'main:team' %}">Team</a></li>
+            </ol>
+        </div>
+    </header>
+    <main>
+        <section class="section-base ">
+            <div class="container">
+                <div class="grid-list gap-60" data-columns="2" data-columns-sm="1" data-gap="60">
+                    <div class="grid-box">
+                        {% for i in team %}
+                        <div class="grid-item">
+                            <div class="cnt-box cnt-box-side">
+                                <a href="#" class="img-box"><img src="{{ i.image.url }}" alt="" /></a>
+                                <div class="caption">
+                                    <h2>{{ i.first_name }} {{ i.last_name }}</h2>
+                                    <p>
+                                        {{ i.description|slice:"100" }}...
+                                    </p>
+                                    <a class="btn-text lightbox" data-lightbox-anima="fade-left" href="#{{ i.pk }}">About me</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="{{ i.pk }}" class="box-lightbox-md light">
+                            <h2>{{ i.first_name }} {{ i.last_name }}</h2>
+                            <h4>Alpinist</h4>
+                            <hr class="space-sm" />
+                            <p>
+                                {{ i.description }}
+                            </p>
+                            <hr class="space-sm" />
+                            <span class="icon-links icon-links-grid icon-social social-colors">
+                                <a href="{{ i.facebook_url }}" target="_blank" class="facebook"><i class="icon-facebook"></i></a>
+                                <a href="{{ i.twitter_url }}" target="_blank" class="twitter"><i class="icon-twitter"></i></a>
+                                <a href="#" target="_blank" class="instagram"><i class="icon-instagram"></i></a>
+                            </span>
+                        </div>
+                        {% endfor %}                                                
+                    </div>
+                </div>                                
+            </div>
+        </section>
+        <section class="section-base section-color section-call">
+            <div class="container">               
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="icon-box icon-box-left">
+                            <i class="im-air-balloon"></i>
+                            <div class="caption">
+                                <h3>The best job</h3>
+                                <p>All day immerse into the nature and amazing views.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="icon-box icon-box-left">
+                            <i class="im-bar-chart2"></i>
+                            <div class="caption">
+                                <h3>Career opportunities</h3>
+                                <p>Grow with us is possible thanks to our levels structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="icon-box icon-box-left">
+                            <i class="im-bee"></i>
+                            <div class="caption">
+                                <h3>Meet amazing people</h3>
+                                <p>We're the best team ever! Funny and friendly with each other.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}    
