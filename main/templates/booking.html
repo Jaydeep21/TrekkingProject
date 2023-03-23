@@ -18,6 +18,12 @@
     <section class="section-base section-color">
         <div class="container">
             <div class="maso-list gap-30" data-columns="2" data-columns-lg="2" data-columns-sm="1">
+                <form action="{% url 'main:bookings' %}" method="GET" value="{{request.GET.search}}">
+                    {% csrf_token %}
+                    <div class="input-text-btn">
+                        <input class="input-text" name="search" value="{{request.GET.search}}" type="text" placeholder="Enter text to search" ><input type="submit" value="Search" class="btn">
+                    </div>
+                </form>
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Your Bookings</a></li>                                            
@@ -48,6 +54,8 @@
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                        You do not have any bookings
                     {% endfor %}                    
                 </div>
             </div>

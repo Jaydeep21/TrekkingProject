@@ -28,15 +28,24 @@ def singleTrek(request, id):
 
 @login_required(login_url='main:login')
 def treks(request):
-    # enrolledHikers brings list of treks which user has enrolled into
-    enrolledHikers = EnrolledHikers.objects.filter(user = request.user.pk).values_list('hike')
-        
-    # occupied_treks searches for all the treks which are already full and removes treks which user has already enrolled to 
-    occupied_treks = Hike.objects.filter(available_capcity__gte = F('group_size')).exclude(pk__in = enrolledHikers)
-    
-    # available_treks first filters which treks are available and excludes all the treks which user is already a part of
-    available_treks = Hike.objects.filter(group_size__gt = F('available_capcity')).exclude(pk__in = enrolledHikers)
+    enrolledHikers = EnrolledHikers.objects.filter(user=request.user.pk).values_list('hike')
+    if request.method == "GET":
+        search_text = request.GET.get('search')
+        # print(search_text)
+        if search_text is not None:
+            occupied_treks = Hike.objects.filter(available_capcity__gte=F('group_size')).exclude(pk__in=enrolledHikers).filter(mountain__contains=search_text)
 
+            available_treks = Hike.objects.filter(group_size__gt=F('available_capcity')).exclude(pk__in=enrolledHikers).filter(mountain__contains=search_text)
+
+        else:
+            # enrolledHikers brings list of treks which user has enrolled into
+
+            # occupied_treks searches for all the treks which are already full and removes treks which user has already enrolled to
+            occupied_treks = Hike.objects.filter(available_capcity__gte = F('group_size')).exclude(pk__in=enrolledHikers)
+
+            # available_treks first filters which treks are available and excludes all the treks which user is already a part of
+            available_treks = Hike.objects.filter(group_size__gt = F('available_capcity')).exclude(pk__in=enrolledHikers)
+    # print(available_treks)
     return render(request, 'treks.html', {"treks": available_treks, "occupied_treks": occupied_treks})
 
 @login_required(login_url='main:login')
@@ -44,9 +53,14 @@ def myBooking(request):
 
     # enrolledHikers brings list of treks which user has enrolled into
     enrolledHikers = EnrolledHikers.objects.filter(user = request.user.pk).values_list('hike')
-    
+    if request.method == "GET":
+        search_text = request.GET.get('search')
+        # print(search_text)
+        if search_text is not None:
+            booked_treks = Hike.objects.filter(pk__in=enrolledHikers).filter(mountain__contains=search_text)
+        else:
     # booked_treks searches all the treks which logged in user is enrolled to
-    booked_treks = Hike.objects.filter(pk__in = enrolledHikers)
+            booked_treks = Hike.objects.filter(pk__in = enrolledHikers)
 
     return render(request, 'booking.html' ,{"booked_treks": booked_treks})
 
