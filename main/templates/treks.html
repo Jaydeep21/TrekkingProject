@@ -14,20 +14,22 @@
         </ol>
     </div>
 </header>
-<main>    
+<main>
+    {% if not available_treks %}
     <section class="section-base section-color">        
         <div class="container">                 
             <div class="maso-list gap-30" data-columns="2" data-columns-lg="1" data-columns-sm="1">
+                <form action="{% url 'main:treks' %}" method="GET" value="{{request.GET.search}}">
+                    {% csrf_token %}
+                    <div class="input-text-btn">
+                        <input class="input-text" name="search" value="{{request.GET.search}}" type="text" placeholder="Enter text to search" ><input type="submit" value="Search" class="btn">
+                    </div>
+                </form>
                 <div class="menu-inner">
                     <ul>
                         <li class="active"><a data-filter="maso-item" href="#">Upcoming available treks</a></li>                                                                    
                     </ul>
                 </div>
-                <form>
-                    <div class="input-text-btn">
-                        <input class="input-text" type="text" placeholder="Enter text to search" /><input type="submit" value="Search" class="btn"></input>
-                    </div>
-                </form> 
                 <br>
                 <div class="maso-box">
                     {% for i in treks %}
@@ -56,12 +58,20 @@
                             </div>
                         </div>
                     </div>
-                    {% endfor %}                    
+                    {% empty %}
+                        There are no available Treks
+                    {% endfor %}
                 </div>
             </div>
             <hr class="space" />
         </div>
     </section>
+{#    {% else %}#}
+{#        <section class="section-base section-color">#}
+{#        There are no available Treks#}
+{#        </section>#}
+    {% endif %}
+
     {% if occupied_treks %}
     <section class="section-base section-color">
         <div class="container">
