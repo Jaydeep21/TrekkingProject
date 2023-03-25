@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import  UserLoginForm
-from .models import Customer, Hike, Guide, EnrolledHikers
+from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
@@ -10,12 +12,25 @@ from django.template.loader import get_template
 from django.views.decorators.debug import sensitive_variables
 from django.conf import settings
 from django.db.models import F
+from django.contrib import messages
 
 # Create your views here.
 def base(request):
     return render(request, 'base.html')
 
 def index(request):
+    list(messages.get_messages(request))
+    if request.method == 'POST':
+        if NewsLetter.objects.filter(email = request.POST.get("email")):
+            messages.error(request, 'You are already registered with us!')
+            return HttpResponseRedirect(reverse('main:index'))
+        else:
+            newsLetter = NewsLetter()
+            newsLetter.name =  request.POST.get("name")
+            newsLetter.email =  request.POST.get("email")
+            newsLetter.save()
+            messages.success(request, 'You are successfully registered with us!')
+            return HttpResponseRedirect(reverse("main:index"))        
     return render(request, 'index.html', {"treks": Hike.objects.all()})
 
 def singleTrek(request, id):

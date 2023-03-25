@@ -65,3 +65,7 @@ class EnrolledHikers(models.Model):
 
     class Meta:
         unique_together = ('user', 'hike',)
+
+class NewsLetter(models.Model):
+    name = models.CharField(max_length=1000)
+    email = models.EmailField(max_length = 254)

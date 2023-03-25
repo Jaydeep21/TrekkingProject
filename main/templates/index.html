@@ -354,13 +354,14 @@
             </table>
         </div>
     </section>
-    {% comment %} <section class="section-base section-color">
+    <section class="section-base section-color">
         <div class="container">
             <div class="title align-center">
                 <h2>Newsletter</h2>
                 <p>Subscribe now to our newsletter</p>
             </div>
-            <form data-anima="fade-in" data-time="1000" action="https://templates.themekit.dev/alpins/HTWF/scripts/php/contact-form.php" class="form-box form-ajax form-inline align-center" method="post" data-email="example@domain.com">
+            <form data-anima="fade-in" data-time="1000" action="{% url 'main:index' %}" class="form-box form-inline align-center" method="post" >
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-4">
                         <input id="name" name="name" placeholder="Name" type="text" class="input-text" required>
@@ -378,14 +379,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="success-box">
-                    <div class="alert alert-success">Congratulations. You're now a subscriber!</div>
+                {% if messages %}
+                    {% for message in messages %}
+                <div class="{{ message.tags }}-box">                    
+                    <div class="alert alert-success">{{ message }}</div>
                 </div>
+
+                    {% endfor %}
+                {% endif %}
+                {% comment %} {% if error %}
                 <div class="error-box">
                     <div class="alert alert-warning">Error, please retry. Your message has not been sent.</div>
                 </div>
+                {% endif %} {% endcomment %}
             </form>
         </div>
-    </section> {% endcomment %}
+    </section>
 </main>
 {% endblock %}
