@@ -160,3 +160,16 @@ def email(request, id):
 
 def teams(request):
     return render(request, "team.html", {"team": Guide.objects.all()})
+
+@login_required(login_url='main:login')
+def profile(request):
+    user = Customer.objects.get(pk=request.user.id)
+    if request.method == "GET":
+        return render(request, "profile.html", {"profile": user})
+    elif request.method == "POST":
+        user.phone = request.POST.get("phone")
+        user.age = request.POST.get("age")
+        user.first_name = request.POST.get("fname")
+        user.last_name = request.POST.get("lname")
+        user.save()
+        return render(request, "profile.html", {"profile": user, "success":"Your details are updated successfully"})

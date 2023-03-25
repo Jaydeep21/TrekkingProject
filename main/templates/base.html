@@ -36,6 +36,11 @@
                 <i class="menu-btn"></i>
                 <div class="menu-cnt">
                     <ul id="main-menu">
+                        {% if request.user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="{% url 'main:profile' %}">Hi {{ request.user.first_name }}</a>                            
+                        </li> 
+                        {% endif %}
                         <li class="dropdown">
                             <a href="{% url 'main:index' %}">Home</a>                            
                         </li>

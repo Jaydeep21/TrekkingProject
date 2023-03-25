@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Profile{% endblock %}
+{% block main_content %}
+
+<header class="header-base">
+    <div class="container">
+        <h1>Profile</h1>
+        <h2>Welcome to Alpins</h2>
+    </div>
+</header>
+<main>
+    <section class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="{% url 'main:profile' %}" class="form-box" method="post" >
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p>First Name</p>
+                                <input id="fname" name="fname" placeholder="First Name" type="text" class="input-text" value="{{ profile.first_name }}" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <p>Last Name</p>
+                                <input id="lname" name="lname" placeholder="Last Name" type="text" class="input-text" value="{{ profile.last_name }}" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <p>Age</p>
+                                <input name="age" id="age" type="number"class="input-text" placeholder="Age" min="18" max="50" value="{{ profile.age }}" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <p>Phone</p>
+                                <input id="phone" name="phone" maxlength="10" pattern="[1-9]{1}[0-9]{9}" value="{{ profile.phone }}" placeholder="Phone(without extension exactly 10 digits)" type="text" class="input-text" required>                        
+                            </div>
+                        </div>
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="check" name="check" value="check" required>
+                            <label for="check">You accept the terms of service and the privacy policy</label>
+                        </div>
+                        <input class="btn btn-sm" type="submit" value="Edit Profile">
+                        {% comment %} <button class="btn btn-sm" type="submit">Register</button> {% endcomment %}
+                        {% if error %}
+                        <div class="success-box" style="display:block" >
+                            <div class="alert alert-success">User details stored successfully please login.</div>
+                        </div>
+                        {% endif %}
+                        {% if error %}
+                            <div class="error-box" style="display:block">
+                                <div class="alert alert-warning">{{ error }}</div>
+                            </div>
+                        {% endif %}
+                        {% if success %}
+                            <div class="success-box" style="display:block">
+                                <div class="alert alert-warning">{{ success }}</div>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>            
+        </div>
+    </section>
+</main>
+
+{% endblock %}   
