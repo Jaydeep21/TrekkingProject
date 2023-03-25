@@ -50,6 +50,9 @@
                         <li class="dropdown">
                             <a href="{% url 'main:team' %}">Team</a>                            
                         </li>
+                        <li class="dropdown">
+                            <a href="{% url 'main:contact' %}">Contact</a>                            
+                        </li>
                         {% if request.user.is_authenticated %}
                             <li>
                                 <a href="{% url 'main:bookings' %}">Bookings</a>
@@ -81,8 +84,8 @@
                         <h3>Contacts</h3>
                         <ul class="icon-list icon-line">
                             <li>Windsor, ON, Canada</li>
-                            <li>hello@uwindsor.ca</li>
-                            <li>02 123 333 444</li>
+                            <li>group6@uwindsor.ca</li>
+                            <li>+1 (567)257-1234</li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -113,8 +116,6 @@
             <script src="{% static 'themekit/scripts/custom.js' %}" async></script>
             <script src="{% static 'themekit/scripts/contact-form/contact-form.js' %}" async></script>
             {% comment %} <script src="{% static 'themekit.dev/tools/sidebar/sidebar.js' %}" data-setting="alpins"></script> {% endcomment %}
-            {% block footer_content %} {% endblock %}
-
         </footer>
     </body>
 

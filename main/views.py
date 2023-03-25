@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import  UserLoginForm
-from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter
+from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter, Contact
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMultiAlternatives
@@ -173,3 +173,15 @@ def profile(request):
         user.last_name = request.POST.get("lname")
         user.save()
         return render(request, "profile.html", {"profile": user, "success":"Your details are updated successfully"})
+
+def contact(request):
+    list(messages.get_messages(request))
+    if request.method == "POST":
+        contact = Contact()
+        contact.name = request.POST.get("name")
+        contact.email = request.POST.get("email")
+        contact.description = request.POST.get("messagge")
+        contact.save()
+        messages.success(request, 'Congratulations. Your message has been sent successfully')
+        return HttpResponseRedirect(reverse('main:contact'))
+    return render(request, "contact.html")

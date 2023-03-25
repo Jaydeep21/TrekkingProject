@@ -15,6 +15,7 @@ urlpatterns = [
     path('bookings', views.myBooking, name='bookings'),
     path('team', views.teams, name='team'),
     path('profile', views.profile, name='profile'),
+    path('contact', views.contact, name='contact'),
     # path('email', views.email, name='email'),
 ]
 

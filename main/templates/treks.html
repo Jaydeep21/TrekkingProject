@@ -3,6 +3,7 @@
 {% load custom_tags %}
 {% block title %}Alpins | Treks{% endblock %}
 {% block main_content %}
+<script src="{% static 'themekit/scripts/isotope.min.js' %}"></script>
 <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-3.jpg' %}" data-offset="0">
     <div class="container">
         <h1>Treks</h1>
@@ -121,7 +122,3 @@
     {% endif %}
 </main>
 {% endblock %}    
-{% block footer_content %}
-<script src="{% static 'themekit/scripts/isotope.min.js' %}"></script>
-
-{% endblock %}   

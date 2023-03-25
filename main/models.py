@@ -69,3 +69,8 @@ class EnrolledHikers(models.Model):
 class NewsLetter(models.Model):
     name = models.CharField(max_length=1000)
     email = models.EmailField(max_length = 254)
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length = 254)
+    description = models.TextField()
