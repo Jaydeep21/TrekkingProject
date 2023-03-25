@@ -31,7 +31,7 @@ def index(request):
             newsLetter.save()
             messages.success(request, 'You are successfully registered with us!')
             return HttpResponseRedirect(reverse("main:index"))        
-    return render(request, 'index.html', {"treks": Hike.objects.all()})
+    return render(request, 'index.html', {"treks": Hike.objects.all().order_by('-id')[:5]})
 
 def singleTrek(request, id):
     trek = get_object_or_404(Hike , pk = id)

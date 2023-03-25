@@ -26,7 +26,7 @@
         <nav class="menu-classic menu-fixed menu-transparent light align-right" data-menu-anima="fade-in">
             <div class="container">
                 <div class="menu-brand">
-                    <a href=""{% url 'main:index' %}"">
+                    <a href="{% url 'main:index' %}">
                         <img class="logo-default scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-retina scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-default scroll-show" src="{% static 'media/logo-white-solid.svg' %}" alt="logo" />
@@ -107,7 +107,9 @@
             <script src="{% static 'themekit/scripts/progress.js' %}" async></script>
             <script src="{% static 'themekit/scripts/custom.js' %}" async></script>
             <script src="{% static 'themekit/scripts/contact-form/contact-form.js' %}" async></script>
-            {% comment %} <script src="../../themekit.dev/tools/sidebar/sidebar.js" data-setting="alpins"></script> {% endcomment %}
+            {% comment %} <script src="{% static 'themekit.dev/tools/sidebar/sidebar.js' %}" data-setting="alpins"></script> {% endcomment %}
+            {% block footer_content %} {% endblock %}
+
         </footer>
     </body>
 
