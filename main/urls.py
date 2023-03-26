@@ -16,6 +16,7 @@ urlpatterns = [
     path('singleTrek/<int:id>', views.singleTrek, name='trek'),
     path('bookings', views.myBooking, name='bookings'),
     path('team', views.teams, name='team'),
+    path('payment/<int:id>', views.payment, name='payment'),
     path('profile', views.profile, name='profile'),
     path('contact', views.contact, name='contact'),
     path('cancel/<int:id>', views.cancelBooking, name='cancel'),

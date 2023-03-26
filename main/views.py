@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.urls import reverse
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from .forms import  UserLoginForm
+from .forms import UserLoginForm, PaymentForm
 from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter, Contact
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
@@ -15,34 +15,45 @@ from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .helper import send_forget_password_mail
+from moneyed import Money
+from google_currency import convert
+import json
+
+
+
 # Create your views here.
 def base(request):
     return render(request, 'base.html')
 
+
 def index(request):
     list(messages.get_messages(request))
     if request.method == 'POST':
-        if NewsLetter.objects.filter(email = request.POST.get("email")):
+        if NewsLetter.objects.filter(email=request.POST.get("email")):
             messages.error(request, 'You are already registered with us!')
             return HttpResponseRedirect(reverse('main:index'))
         else:
             newsLetter = NewsLetter()
-            newsLetter.name =  request.POST.get("name")
-            newsLetter.email =  request.POST.get("email")
+            newsLetter.name = request.POST.get("name")
+            newsLetter.email = request.POST.get("email")
             newsLetter.save()
             messages.success(request, 'You are successfully registered with us!')
             return HttpResponseRedirect(reverse("main:index"))        
     return render(request, 'index.html', {"treks": Hike.objects.all().order_by('-id')[:5]})
 
+
 def singleTrek(request, id):
+    trek = get_object_or_404(Hike, pk=id)
+    user = get_object_or_404(Guide, pk=trek.user_id)
     trek = get_object_or_404(Hike , pk = id)
     user = get_object_or_404(Guide, pk=trek.user_id )
     if EnrolledHikers.objects.filter(user=request.user.pk, hike = id):
-        trek.booked = True            
+        trek.booked = True
     print("User id", user)
     if trek is None or user is None:
         return redirect('/treks')
     return render(request, 'treks-single.html', {"trek": trek, "user": user})
+
 
 @login_required(login_url='main:login')
 def treks(request):
@@ -66,6 +77,7 @@ def treks(request):
     # print(available_treks)
     return render(request, 'treks.html', {"treks": available_treks, "occupied_treks": occupied_treks})
 
+
 @login_required(login_url='main:login')
 def myBooking(request):
 
@@ -82,30 +94,25 @@ def myBooking(request):
 
     return render(request, 'booking.html' ,{"booked_treks": booked_treks})
 
+
 @login_required(login_url='main:login')
 def logout_view(request):
     logout(request)
     return redirect('/')
 
+
 @login_required(login_url='main:login')
 def booking(request, id):
-    try:
-        hikeCheck = EnrolledHikers.objects.get(user=request.user.pk, hike = id)
-    except EnrolledHikers.DoesNotExist:
-        hikeCheck = None
-    if hikeCheck is not None:
-       return redirect(request.META.get('HTTP_REFERER', '/'), {"error", "Sorry you've already enrolled for this trek"})
     hike = Hike.objects.get(pk=id)
-    if hike is None:
-        return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, no such trek exists"})
-    if hike.available_capcity >= hike.group_size:
-        return redirect(request.META.get('HTTP_REFERER', '/'), {"error":"Sorry, you're late group capacity is full"})        
-    enrolledHikers = EnrolledHikers.objects.create(hike = hike, user = Customer.objects.get(pk = request.user.pk))
+    enrolledHikers = EnrolledHikers.objects.create(hike=hike, user=Customer.objects.get(pk=request.user.pk))
     hike.available_capcity += 1
     hike.save()
-    if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):            
+    if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):
         email(request, enrolledHikers.pk)
-    return redirect('/bookings')
+    msg = "Your booking has been confirmed. Thank you for choosing our service."
+    msg2 = "An email containing the details of your booking has been sent to you."
+    return render(request, "booking_confirm.html", {'flag': True, 'msg': msg, 'msg2': msg2})
+
 
 class Login(View):
     form = UserLoginForm
@@ -126,6 +133,7 @@ class Login(View):
         else:
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {"form": self.form, "error" : 'Invalid username or password.'})
+
 
 class Signup(View):
     # form = SignupForm
@@ -149,33 +157,33 @@ class Signup(View):
 
 
 def ChangePassword(request , token):
-    context = {}     
+    context = {}
     try:
         cust_obj = Customer.objects.filter(forget_password_token = token).first()
         print("Customer Object in change password",cust_obj)
         context = {'user_id' : cust_obj.id}
-        
+
         if request.method == 'POST':
             new_password = request.POST.get('new_password')
             confirm_password = request.POST.get('reconfirm_password')
             user_id = request.POST.get('user_id')
             print("User_id",user_id)
-            
+
             if user_id is  None:
                 messages.success(request, 'No user id found.')
                 return redirect(f'/change-password/{token}/')
-                
-            
+
+
             if  new_password != confirm_password:
                 messages.success(request, 'both should  be equal.')
                 return redirect(f'/change-password/{token}/')
-                                  
+
             user_obj = Customer.objects.get(id = user_id)
             print("user_obj in cp",user_obj)
             user_obj.set_password(new_password)
             user_obj.save()
             return redirect('/login')
-                   
+
     except Exception as e:
         print(e)
     return render(request , 'change-password.html' , context)
@@ -191,7 +199,7 @@ def ForgetPassword(request):
             if Customer.objects.filter(email=email).first() == None:
                 messages.success(request, 'No user found with this email.')
                 return redirect('/forget-password')
-            
+
             # user_obj = User.objects.get(email = email)
             token = str(uuid.uuid4())
             cust_obj= Customer.objects.get(email = email)
@@ -205,7 +213,7 @@ def ForgetPassword(request):
             send_forget_password_mail(cust_obj.email , reset_url)
             messages.success(request, 'An email is sent.')
             return redirect('/forget-password')
-                  
+
     except Exception as e:
         print(e)
     return render(request , 'forget-password.html')
@@ -226,6 +234,45 @@ def email(request, id):
 
 def teams(request):
     return render(request, "team.html", {"team": Guide.objects.all()})
+
+
+@login_required(login_url='main:login')
+def payment(request, id):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            trek = get_object_or_404(Hike, pk=id)
+            user = get_object_or_404(Guide, pk=trek.user_id)
+            price_today = json.loads(convert('cad', form.cleaned_data['currency'], trek.cost))
+            sale_price_today = float(price_today['amount'])
+            tax = float("{:.2f}".format(round(sale_price_today) * .13))
+            total_price = tax + sale_price_today
+            return render(request, "booking_confirm.html",
+                          {"trek": trek, 'user': user, 'price': round(sale_price_today),
+                           'tax': round(tax), 'total_price': round(total_price),
+                           'cur': form.cleaned_data['currency']})
+
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    else:
+        try:
+            hikeCheck = EnrolledHikers.objects.get(user=request.user.pk, hike=id)
+        except EnrolledHikers.DoesNotExist:
+            hikeCheck = None
+        if hikeCheck is not None:
+            messages.error(request, "Sorry you've already enrolled for this trek")
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        hike = Hike.objects.get(pk=id)
+        if hike is None:
+            return redirect(request.META.get('HTTP_REFERER', '/'), {"error": "Sorry, no such trek exists"})
+        if hike.available_capcity >= hike.group_size:
+            return redirect(request.META.get('HTTP_REFERER', '/'),
+                            {"error": "Sorry, you're late group capacity is full"})
+        form = PaymentForm
+        trek = get_object_or_404(Hike, pk=id)
+        return render(request, "payment.html", {"trek_id": id, 'form': form, 'trek_cost': trek.cost, 'convert': convert})
+
 
 @login_required(login_url='main:login')
 def profile(request):
@@ -257,7 +304,7 @@ def cancelBooking(request, id):
     try:
         hike = Hike.objects.get(pk = id)
     except Hike.DoesNotExist:
-        messages.error(request, 'Sorry, no such trek Exists!') 
+        messages.error(request, 'Sorry, no such trek Exists!')
         return redirect(request.META.get('HTTP_REFERER', '/'))
     EnrolledHikers.objects.filter(user=request.user.pk, hike = id).delete()
     hike.available_capcity -= 1

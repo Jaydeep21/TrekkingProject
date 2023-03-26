@@ -17,10 +17,12 @@
 <main>    
     <section class="section-base">        
         <div class="container">
-            {% if error %}
-                <div class="error-box">
-                    <div class="alert alert-warning">asdfasdf</div>
-                </div>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <h3>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
+                    {% endfor %}
+                </ul>
             {% endif %}
             <br><br>
             <div class="row">
@@ -30,9 +32,9 @@
                     </p>
                     <hr class="space-sm" /><hr class="space-xs" />
                     {% if trek.booked %}
-                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancell Event</a>                
+                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancell Event</a>
                     {% else %}
-                        <a href="{% url 'main:booking' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for ${{ trek.cost }}</a>
+                        <a href="{% url 'main:payment' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for ${{ trek.cost }}</a>
                     {% endif %}
                 </div>
                 {% if user %}
@@ -74,7 +76,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="counter counter-vertical counter-icon">
                         <div>
-                            <h3>Data</h3>
+                            <h3>Date</h3>
                             <p class="text-50 text-black no-margin">{{ trek.hike_date|date:"M d" }}</p> 
                         </div>
                     </div>
@@ -137,9 +139,9 @@
                     </table>
                     <hr class="space-sm" /> <hr class="space-xs" /> 
                     {% if trek.booked %}
-                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancell Event</a>                
+                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancell Event</a>
                     {% else %}
-                        <a href="{% url 'main:booking' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for ${{ trek.cost }}</a>
+                        <a href="{% url 'main:payment' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for ${{ trek.cost }}</a>
                     {% endif %}
                 </div>
                 <div class="col-lg-6">

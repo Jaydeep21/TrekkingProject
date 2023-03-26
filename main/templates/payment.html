@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Alpins | Payment{% endblock %}
+{% block head %}
+    <script>
+        window.onload = function() {
+             document.getElementById("id_price").value = {{ trek_cost }};
+        }
+        function update_price() {
+            var dropdown = document.getElementById("id_currency");
+            var selectedValue = dropdown.options[dropdown.selectedIndex].value;
+            var USexchangeRate = 0.73
+            var trek_cost_usd = {{trek_cost}} * USexchangeRate;
+            console.log(trek_cost_usd)
+            var exchangeRate = get_exchange_rate(selectedValue);
+            var exchangeRatePrice = trek_cost_usd * exchangeRate;
+            document.getElementById("id_price").value = exchangeRatePrice.toFixed(2);
+
+           function get_exchange_rate(currencyCode) {
+                var url = "https://openexchangerates.org/api/latest.json?app_id=ab884a43fbe7462d962c712cfeb09caa&base=USD";
+                var request = new XMLHttpRequest();
+                request.open('GET', url, false);
+                request.send(null);
+
+                if (request.status === 200) {
+                  var response = JSON.parse(request.responseText);
+                        return response.rates[currencyCode];
+                } else {
+                  return 1; // Default to a rate of 1 if there was an error
+                }
+           }
+        }
+    </script>
+{% endblock %}
+{% block main_content %}
+    <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-10.jpg' %}" data-offset="0">
+        <div class="container">
+            <h1>Book Now</h1>
+            <h2>Enter your card details to proceed</h2>
+            <ol class="breadcrumb">
+                <li><a href="{% url 'main:index' %}">Home</a></li>
+                <li><a href="{% url 'main:treks' %}">Treks</a></li>
+            </ol>
+        </div>
+    </header>
+    <main>
+        <section class="section-base">
+             <div class="progress-bar">
+                 <div>
+                     <div data-progress="50">
+                         <span class="counter"  data-to="50" data-speed="2000" data-unit="%">50%</span>
+                     </div>
+                 </div>
+             </div>
+                <div class="container">
+               <div class="row">
+                <div class="col-lg-6">
+                    <h2>Enter Card Details</h2>
+                    <br/>
+                    <form action="../payment/{{ trek_id }}" class="form-box" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-sm" type="submit">Pay</button>
+                        {% if error %}
+                        <div class="error-box">
+                            <div class="alert alert-warning">{{ error }}</div>
+                        </div>
+                        {% endif%}
+                    </form>
+                </div>
+               </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}
