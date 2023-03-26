@@ -14,6 +14,7 @@ urlpatterns = [
     path('singleTrek/<int:id>', views.singleTrek, name='trek'),
     path('bookings', views.myBooking, name='bookings'),
     path('team', views.teams, name='team'),
+    path('payment/<int:id>', views.payment, name='payment'),
     # path('email', views.email, name='email'),
 ]
 

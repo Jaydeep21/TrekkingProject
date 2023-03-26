@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Alpins | Booking Confirmation {% endblock %}
+{% block main_content %}
+    <header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-10.jpg' %}" data-offset="0">
+        <div class="container">
+            {% if flag %}
+                <h1>Booking Confirmed</h1>
+                <h2>Happy Trekking</h2>
+            {% else %}
+                <h1>Booking Detail</h1>
+                <h2>Confirm your details</h2>
+            {% endif %}
+
+            <ol class="breadcrumb">
+                <li><a href="{% url 'main:index' %}">Home</a></li>
+                <li><a href="{% url 'main:treks' %}">Treks</a></li>
+            </ol>
+        </div>
+    </header>
+    <main>
+        <section class="section-base">
+            <div class="container">
+                {% if flag %}
+                    <h2>{{ msg }}</h2>
+                    <h3>{{ msg2 }}</h3>
+                    <br/>
+                    <br/>
+                    <a href="{% url 'main:bookings' %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>My Bookings</a>
+                {% else %}
+                    <div class="row">
+                        <div class="col-lg-offset-8">
+                            <h2>Booking Details</h2>
+                            <br/>
+                            <ul class="text-list text-list-side">
+                                <li>
+                                    <h3>Payment Details</h3>
+                                    <p>
+                                    <ul class="text-list text-list-line">
+                                        <li><b>Price</b><hr /><p>{{ price }}<span>{{ cur }}</span></p></li>
+                                        <li><b>Tax</b><hr /><p>{{ tax }}<span>{{ cur }}</span></p></li>
+                                        <li><b>Total</b><hr /><p>{{ total_price}}<span>{{ cur }}</span></p></li>
+                                    </ul>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-offset-8">
+                            <br/>
+                            <br/>
+                            <ul class="text-list text-list-side">
+                                <li>
+                                    <h3>Track Details</h3>
+                                    <p>
+                                    <ul class="text-list text-list-line">
+                                        <li><b>Trail</b><hr /><p>{{ trek.trail }}</p></li>
+                                        <li><b>Mountain</b><hr /><p>{{ trek.mountain }}</p></li>
+                                        <li><b>Distance</b><hr /><p>{{ trek.distance }}<span>KM</span></p></li>
+                                        <li><b>Duration</b><hr /><p>{{trek.duration}}<span>Days</span></p></li>
+                                        <li><b>Level</b><hr /><p>{{ trek.level }}</p></li>
+                                        <li><b>Date</b><hr /><p>{{ trek.hike_date }}</p></li>
+                                        <li><b>Guide</b><hr /><p>{{ user.first_name }} {{ user.last_name }}</p></li>
+                                    </ul>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <a href="{% url 'main:booking' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book Now</a>
+                {% endif %}
+                </div>
+        </section>
+    </main>
+{% endblock %}
