@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from .helper import send_forget_password_mail
 from moneyed import Money
 from google_currency import convert
+import json
+
 
 
 # Create your views here.
