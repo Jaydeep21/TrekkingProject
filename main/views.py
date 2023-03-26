@@ -7,17 +7,16 @@ from .forms import UserLoginForm, PaymentForm
 from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter, Contact
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.core.mail import EmailMultiAlternatives
-from django.template.loader import get_template
 from django.views.decorators.debug import sensitive_variables
 from django.conf import settings
 from django.db.models import F
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .helper import send_forget_password_mail
+from .helper import send_forget_password_mail, email
 from moneyed import Money
 from google_currency import convert
 import json
+import uuid
 
 
 
@@ -45,8 +44,6 @@ def index(request):
 def singleTrek(request, id):
     trek = get_object_or_404(Hike, pk=id)
     user = get_object_or_404(Guide, pk=trek.user_id)
-    trek = get_object_or_404(Hike , pk = id)
-    user = get_object_or_404(Guide, pk=trek.user_id )
     if EnrolledHikers.objects.filter(user=request.user.pk, hike = id):
         trek.booked = True
     print("User id", user)
@@ -108,7 +105,7 @@ def booking(request, id):
     hike.available_capcity += 1
     hike.save()
     if hasattr(settings, 'EMAIL_HOST_USER') and hasattr(settings, 'EMAIL_HOST_PASSWORD'):
-        email(request, enrolledHikers.pk)
+        email(request, enrolledHikers.pk, False)
     msg = "Your booking has been confirmed. Thank you for choosing our service."
     msg2 = "An email containing the details of your booking has been sent to you."
     return render(request, "booking_confirm.html", {'flag': True, 'msg': msg, 'msg2': msg2})
@@ -189,7 +186,6 @@ def ChangePassword(request , token):
     return render(request , 'change-password.html' , context)
 
 
-import uuid
 def ForgetPassword(request):
     try:
         if request.method == 'POST':
@@ -217,20 +213,6 @@ def ForgetPassword(request):
     except Exception as e:
         print(e)
     return render(request , 'forget-password.html')
-
-@login_required(login_url='main:login')
-def email(request, id):
-    hike = EnrolledHikers.objects.get(pk=id)
-    tx = float("{:.2f}".format(hike.hike.cost * .13))
-    total = tx + hike.hike.cost
-    htmly = get_template('email.html')
-    subject, from_email, to = 'Booking Confirmation', 'from@example.com', request.user.email
-    html_content = htmly.render({"hike": hike, "tax": tx, "total":total })
-    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
-    msg.content_subtype = "html"
-    msg.send()
-    print(msg)
-    # return render(request, 'email.html', {"hike": hike, "tax": tx, "total":total } )
 
 def teams(request):
     return render(request, "team.html", {"team": Guide.objects.all()})
@@ -306,7 +288,13 @@ def cancelBooking(request, id):
     except Hike.DoesNotExist:
         messages.error(request, 'Sorry, no such trek Exists!')
         return redirect(request.META.get('HTTP_REFERER', '/'))
-    EnrolledHikers.objects.filter(user=request.user.pk, hike = id).delete()
+    try:
+        enrolledHikers = EnrolledHikers.objects.get(user=request.user.pk, hike = id)
+    except:
+        messages.error(request, 'Sorry, you are not enrolled to this hike!')
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    email(request, enrolledHikers.pk, True)    
+    enrolledHikers.delete()
     hike.available_capcity -= 1
     hike.save()
     return render(request, "cancel.html")
