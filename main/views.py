@@ -70,7 +70,7 @@ def treks(request):
             occupied_treks = Hike.objects.filter(available_capcity__gte = F('group_size')).exclude(pk__in=enrolledHikers)
 
             # available_treks first filters which treks are available and excludes all the treks which user is already a part of
-            available_treks = Hike.objects.filter(group_size__gt = F('available_capcity')).exclude(pk__in=enrolledHikers)
+            available_treks = Hike.objects.filter(group_size__gt = F('available_capcity')).exclude(pk__in=enrolledHikers).order_by('cost')
     # print(available_treks)
     return render(request, 'treks.html', {"treks": available_treks, "occupied_treks": occupied_treks})
 
@@ -275,7 +275,7 @@ def contact(request):
         contact = Contact()
         contact.name = request.POST.get("name")
         contact.email = request.POST.get("email")
-        contact.description = request.POST.get("messagge")
+        contact.description = request.POST.get("message")
         contact.save()
         messages.success(request, 'Congratulations. Your message has been sent successfully')
         return HttpResponseRedirect(reverse('main:contact'))
