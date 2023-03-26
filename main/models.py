@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class Customer(User):
     phone = PhoneNumberField(null = True, blank= True)
     age = models.IntegerField( default=18, validators=[MaxValueValidator(50), MinValueValidator(18)])
-
+    forget_password_token = models.CharField(max_length=100,null=True)
     def __str__(self):
         return "Customer ID: "+ str(self.pk) + " | Name: " + self.first_name +" " + self.last_name
 
