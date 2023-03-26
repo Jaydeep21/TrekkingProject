@@ -36,6 +36,8 @@ def index(request):
 def singleTrek(request, id):
     trek = get_object_or_404(Hike , pk = id)
     user = get_object_or_404(Guide, pk=trek.user_id )
+    if EnrolledHikers.objects.filter(user=request.user.pk, hike = id):
+        trek.booked = True            
     print("User id", user)
     if trek is None or user is None:
         return redirect('/treks')
@@ -185,3 +187,15 @@ def contact(request):
         messages.success(request, 'Congratulations. Your message has been sent successfully')
         return HttpResponseRedirect(reverse('main:contact'))
     return render(request, "contact.html")
+
+@login_required(login_url='main:login')
+def cancelBooking(request, id):
+    try:
+        hike = Hike.objects.get(pk = id)
+    except Hike.DoesNotExist:
+        messages.error(request, 'Sorry, no such trek Exists!') 
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    EnrolledHikers.objects.filter(user=request.user.pk, hike = id).delete()
+    hike.available_capcity -= 1
+    hike.save()
+    return render(request, "cancel.html")

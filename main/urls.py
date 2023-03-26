@@ -16,6 +16,7 @@ urlpatterns = [
     path('team', views.teams, name='team'),
     path('profile', views.profile, name='profile'),
     path('contact', views.contact, name='contact'),
+    path('cancel/<int:id>', views.cancelBooking, name='cancel'),
     # path('email', views.email, name='email'),
 ]
 
