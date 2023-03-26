@@ -1,5 +1,80 @@
 [
 {
+    "model": "main.guide",
+    "pk": 7,
+    "fields": {
+        "phone": "+15193005747",
+        "age": 24,
+        "nationality": "Indian",
+        "profile_image": "Raj1",
+        "image": "images/Guide/1575017646463.jpeg",
+        "facebook_url": "https://www.facebook.com/rajdedhia10",
+        "twitter_url": "https://www.facebook.com/rajdedhia10",
+        "description": "Professional traveler who makes a long arduous journey",
+        "language": "English, Hindi, Gujrati, Kutchhi, Marathi"
+    }
+},
+{
+    "model": "main.guide",
+    "pk": 8,
+    "fields": {
+        "phone": "+12267244179",
+        "age": 25,
+        "nationality": "Indian",
+        "profile_image": "JDBC",
+        "image": "images/Guide/110088507.jpg",
+        "facebook_url": "https://www.facebook.com/",
+        "twitter_url": "https://www.linkedin.com/in/jaydeepdharamsey/",
+        "description": "Welcome to the great outdoors! As your trekking guide, I'm here to help you explore the beauty of nature and make unforgettable memories.",
+        "language": "English"
+    }
+},
+{
+    "model": "main.guide",
+    "pk": 9,
+    "fields": {
+        "phone": "+16476560138",
+        "age": 25,
+        "nationality": "Bangladeshi",
+        "profile_image": "ariq",
+        "image": "images/Guide/ariq.png",
+        "facebook_url": "https://facebook.com/",
+        "twitter_url": "https://facebook.com/",
+        "description": "Whether you're an experienced trekker or a first-timer, I'll customize your trekking experience to suit your preferences and abilities.",
+        "language": "Bangla, English"
+    }
+},
+{
+    "model": "main.guide",
+    "pk": 10,
+    "fields": {
+        "phone": "+12269757793",
+        "age": 23,
+        "nationality": "Indian",
+        "profile_image": "jaiman",
+        "image": "images/Guide/jaiman.png",
+        "facebook_url": "facebook.com",
+        "twitter_url": "facebook.com",
+        "description": "With my in-depth knowledge of the local terrain, flora, and fauna, I'll guide you on a journey through some of the most scenic trails, sharing fascinating insights and stories along the way.",
+        "language": "English, Gujarati, Hindi"
+    }
+},
+{
+    "model": "main.guide",
+    "pk": 11,
+    "fields": {
+        "phone": "+12269755794",
+        "age": 25,
+        "nationality": "Indian",
+        "profile_image": "ayush",
+        "image": "images/Guide/ayush.png",
+        "facebook_url": "facebook.com",
+        "twitter_url": "facebook.com",
+        "description": "Your safety and comfort are my top priorities, and I'll make sure to provide you with all the necessary equipment and advice to make your trekking adventure a success.",
+        "language": "Hindi, English, Gujarati"
+    }
+},
+{
     "model": "main.hike",
     "pk": 1,
     "fields": {
@@ -15,13 +90,13 @@
         "cost": 95,
         "level": "High",
         "hike_date": "2023-03-19",
-        "available_capcity": 2,
+        "available_capcity": 1,
         "gmap_url": "https://goo.gl/maps/JhwX4KWYGvighm4f7",
         "user_id": 7,
         "image": "images/Hikes/image-2.jpg",
         "image_name": "1",
         "created_at": "2023-03-13T03:55:25.236Z",
-        "updated_at": "2023-03-21T14:43:44.476Z"
+        "updated_at": "2023-03-26T16:45:50.858Z"
     }
 },
 {
@@ -40,13 +115,13 @@
         "cost": 65,
         "level": "Low",
         "hike_date": "2023-03-29",
-        "available_capcity": 1,
+        "available_capcity": 0,
         "gmap_url": "https://goo.gl/maps/1i5D91mdzCnAKzRp7",
         "user_id": 7,
         "image": "images/Hikes/image-3.jpg",
         "image_name": "2",
         "created_at": "2023-03-18T17:29:06.158Z",
-        "updated_at": "2023-03-22T12:33:01.010Z"
+        "updated_at": "2023-03-26T16:46:15.093Z"
     }
 },
 {
@@ -96,7 +171,7 @@
         "image": "images/Hikes/image-5.jpg",
         "image_name": "image-5",
         "created_at": "2023-03-19T18:27:57.116Z",
-        "updated_at": "2023-03-19T18:27:57.116Z"
+        "updated_at": "2023-03-26T20:29:10.459Z"
     }
 },
 {
@@ -147,6 +222,24 @@
         "image_name": "img6",
         "created_at": "2023-03-19T19:16:42.039Z",
         "updated_at": "2023-03-22T13:43:05.743Z"
+    }
+},
+{
+    "model": "main.customer",
+    "pk": 6,
+    "fields": {
+        "phone": "2267244179",
+        "age": 25,
+        "forget_password_token": null
+    }
+},
+{
+    "model": "main.customer",
+    "pk": 12,
+    "fields": {
+        "phone": "+12269755794",
+        "age": 24,
+        "forget_password_token": null
     }
 }
 ]
