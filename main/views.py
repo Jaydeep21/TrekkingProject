@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from django.contrib.auth import authenticate, login, logout
 from .forms import  UserLoginForm
 from .models import Customer, Hike, Guide, EnrolledHikers, NewsLetter, Contact
@@ -196,7 +196,11 @@ def ForgetPassword(request):
             cust_obj.forget_password_token = token
             cust_obj.save()
             print("Customer object",cust_obj)
-            send_forget_password_mail(cust_obj.email , token)
+            reset_url = request.build_absolute_uri('/change-password/')
+            print("Only reset url ",reset_url)
+            print(" reset url+token ",reset_url+token+"/")
+            reset_url+=token+"/"
+            send_forget_password_mail(cust_obj.email , reset_url)
             messages.success(request, 'An email is sent.')
             return redirect('/forget-password')
                   
