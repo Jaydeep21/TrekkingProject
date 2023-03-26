@@ -25,13 +25,18 @@
                     </div>
                 </form>
                 <div class="menu-inner">
+                    <div><i class="menu-btn"></i><span>Menu</span></div>
                     <ul>
-                        <li class="active"><a data-filter="maso-item" href="#">Your Bookings</a></li>                                            
+                        <li class="active"><a data-filter="maso-item" href="#">Your Bookings</a></li>
+                        <li><a data-filter="High" href="#">High Difficulty</a></li>
+                        <li><a data-filter="Low" href="#">Low Difficulty</a></li>
+                        <li><a data-filter="Medium" href="#">Medium Difficulty</a></li>    
+                        <li><a class="maso-order" data-sort="asc"></a></li>
                     </ul>
                 </div>
                 <div class="maso-box">
                     {% for i in booked_treks %}
-                    <div class="maso-item cat-1">
+                    <div class="maso-item {{ i.level }}">
                         <div class="cnt-box cnt-box-info boxed" data-href="singleTrek/{{i.pk}}">
                             <div class="extra-field">${{ i.cost }}</div>
                             <a href="singleTrek/{{i.pk}}" class="img-box">

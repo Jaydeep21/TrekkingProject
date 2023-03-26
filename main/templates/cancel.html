@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}Alpins | Booking Cancellation{% endblock %}
+{% block main_content %}
+<header class="header-image ken-burn-center light" data-parallax="true" data-natural-height="1080" data-natural-width="1920" data-bleed="0" data-image-src="{% static 'media/hd-10.jpg' %}" data-offset="0">
+    <div class="container">
+        <h1>Booking Cancelled</h1>
+        <h2>Happy Trekking</h2>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'main:index' %}">Home</a></li>
+            <li><a href="{% url 'main:treks' %}">Treks</a></li>
+        </ol>
+    </div>
+</header>
+<main>
+    <section class="section-base">
+        <div class="container">
+            <h2>Your booking has been cancelled successfully.</h2>
+            <h3>We hope to see you in other events soon!</h3>
+            <br/><br/>
+            <a href="{% url 'main:bookings' %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>My Bookings</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

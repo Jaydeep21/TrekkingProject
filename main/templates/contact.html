@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Alpins | Contact{% endblock %}
+{% block main_content %}
+<main>
+    <section class="section-base">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="title">
+                        <h2>Write us</h2>
+                        <p>Contact us from here</p>
+                    </div>
+                    <form action="{% url 'main:contact' %}" class="form-box" method="post" data-email="example@domain.com">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p>Name</p>
+                                <input id="name" name="name" placeholder="Name" type="text" class="input-text" maxlength="100" required>
+                            </div>
+                            <div class="col-lg-6">
+                                <p>Email</p>
+                                <input id="email" name="email" placeholder="Email" type="email" class="input-text" maxlength="254" required>
+                            </div>
+                        </div>
+                        <p>Messagge</p>
+                        <textarea id="messagge" name="messagge" class="input-textarea" placeholder="Write something ..." maxlength="1000" required></textarea>
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="check" name="check" value="check" required>
+                            <label for="check">You accept the terms of service and the privacy policy</label>
+                        </div>
+                        <button class="btn btn-sm" type="submit">Send messagge</button>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br><br>
+                                <div class="{{ message.tags }}-box">                    
+                                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <div class="title">
+                        <h2>Contacts</h2>
+                        <p>Information</p>
+                    </div>
+                    <ul class="text-list text-list-line">
+                        <li><b>Address</b><hr /><p>Windsor, Ontario, Canada</p></li>
+                        <li><b>Web</b><hr /><p>uwindsor.ca</p></li>
+                        <li><b>Email</b><hr /><p>group6@duwindsor.ca</p></li>
+                        <li><b>Phone</b><hr /><p>+1 (567)257-1234</p></li>
+                        <li><b>Skype</b><hr /><p>group6.uwindsor</p></li>       
+                    </ul> 
+                    <hr class="space-sm" />
+                    <div class="icon-links icon-social icon-links-grid social-colors-hover">
+                        <a class="facebook"><i class="icon-facebook"></i></a>
+                        <a class="twitter"><i class="icon-twitter"></i></a>
+                        <a class="instagram"><i class="icon-instagram"></i></a>
+                        <a class="google"><i class="icon-google"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}   

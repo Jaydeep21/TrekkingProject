@@ -26,14 +26,18 @@
                     </div>
                 </form>
                 <div class="menu-inner">
+                    <div><i class="menu-btn"></i><span>Menu</span></div>
                     <ul>
-                        <li class="active"><a data-filter="maso-item" href="#">Upcoming available treks</a></li>                                                                    
+                        <li class="active"><a data-filter="maso-item" href="#">All Upcoming available treks</a></li>
+                        <li><a data-filter="High" href="#">High Difficulty</a></li>
+                        <li><a data-filter="Low" href="#">Low Difficulty</a></li>
+                        <li><a data-filter="Medium" href="#">Medium Difficulty</a></li>
+                        <li><a class="maso-order" data-sort="asc"></a></li>
                     </ul>
                 </div>
-                <br>
                 <div class="maso-box">
                     {% for i in treks %}
-                    <div class="maso-item cat-1">
+                    <div class="maso-item {{ i.level }}">
                         <div class="cnt-box cnt-box-info boxed" data-href="singleTrek/{{i.pk}}">
                             <div class="extra-field">${{ i.cost }}</div>
                             <a href="singleTrek/{{i.pk}}" class="img-box">
@@ -77,13 +81,18 @@
         <div class="container">
             <div class="maso-list gap-30" data-columns="2" data-columns-lg="1" data-columns-sm="1">
                 <div class="menu-inner">
+                    <div><i class="menu-btn"></i><span>Menu</span></div>
                     <ul>
-                        <li class="active"><a data-filter="maso-item" href="#">Upcoming booked treks</a></li>                                            
+                        <li class="active"><a data-filter="maso-item" href="#">All Upcoming booked treks</a></li>
+                        <li><a data-filter="High" href="#">High Difficulty</a></li>
+                        <li><a data-filter="Low" href="#">Low Difficulty</a></li>
+                        <li><a data-filter="Medium" href="#">Medium Difficulty</a></li>
+                        <li><a class="maso-order" data-sort="asc"></a></li>
                     </ul>
                 </div>
                 <div class="maso-box">
                     {% for i in occupied_treks %}
-                    <div class="maso-item cat-1">
+                    <div class="maso-item {{ i.level }}">
                         <div class="cnt-box cnt-box-info boxed" >
                             <div class="extra-field">${{ i.cost }}</div>
                             <a href="#" class="img-box"><img src="{{ i.image.url }}" alt="" /></a>

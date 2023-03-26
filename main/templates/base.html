@@ -27,7 +27,7 @@
         <nav class="menu-classic menu-fixed menu-transparent light align-right" data-menu-anima="fade-in">
             <div class="container">
                 <div class="menu-brand">
-                    <a href=""{% url 'main:index' %}"">
+                    <a href="{% url 'main:index' %}">
                         <img class="logo-default scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-retina scroll-hide" src="{% static 'media/logo-white-blue.svg' %}" alt="logo" />
                         <img class="logo-default scroll-show" src="{% static 'media/logo-white-solid.svg' %}" alt="logo" />
@@ -37,6 +37,11 @@
                 <i class="menu-btn"></i>
                 <div class="menu-cnt">
                     <ul id="main-menu">
+                        {% if request.user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="{% url 'main:profile' %}">Hi {{ request.user.first_name }}</a>                            
+                        </li> 
+                        {% endif %}
                         <li class="dropdown">
                             <a href="{% url 'main:index' %}">Home</a>                            
                         </li>
@@ -45,6 +50,9 @@
                         </li>
                         <li class="dropdown">
                             <a href="{% url 'main:team' %}">Team</a>                            
+                        </li>
+                        <li class="dropdown">
+                            <a href="{% url 'main:contact' %}">Contact</a>                            
                         </li>
                         {% if request.user.is_authenticated %}
                             <li>
@@ -77,8 +85,8 @@
                         <h3>Contacts</h3>
                         <ul class="icon-list icon-line">
                             <li>Windsor, ON, Canada</li>
-                            <li>hello@uwindsor.ca</li>
-                            <li>02 123 333 444</li>
+                            <li>group6@uwindsor.ca</li>
+                            <li>+1 (567)257-1234</li>
                         </ul>
                     </div>
                     <div class="col-lg-4">
@@ -108,7 +116,7 @@
             <script src="{% static 'themekit/scripts/progress.js' %}" async></script>
             <script src="{% static 'themekit/scripts/custom.js' %}" async></script>
             <script src="{% static 'themekit/scripts/contact-form/contact-form.js' %}" async></script>
-            {% comment %} <script src="../../themekit.dev/tools/sidebar/sidebar.js" data-setting="alpins"></script> {% endcomment %}
+            {% comment %} <script src="{% static 'themekit.dev/tools/sidebar/sidebar.js' %}" data-setting="alpins"></script> {% endcomment %}
         </footer>
     </body>
 
