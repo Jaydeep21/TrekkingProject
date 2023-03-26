@@ -13,7 +13,8 @@ from django.views.decorators.debug import sensitive_variables
 from django.conf import settings
 from django.db.models import F
 from django.contrib import messages
-
+from django.contrib.auth.models import User
+from .helper import send_forget_password_mail
 # Create your views here.
 def base(request):
     return render(request, 'base.html')
@@ -143,6 +144,65 @@ class Signup(View):
         user.password = make_password(request.POST.get("password"))
         user.save()
         return redirect('/', {"success": "User details stored successfully"})
+
+
+def ChangePassword(request , token):
+    context = {}     
+    try:
+        cust_obj = Customer.objects.filter(forget_password_token = token).first()
+        print("Customer Object in change password",cust_obj)
+        context = {'user_id' : cust_obj.id}
+        
+        if request.method == 'POST':
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('reconfirm_password')
+            user_id = request.POST.get('user_id')
+            print("User_id",user_id)
+            
+            if user_id is  None:
+                messages.success(request, 'No user id found.')
+                return redirect(f'/change-password/{token}/')
+                
+            
+            if  new_password != confirm_password:
+                messages.success(request, 'both should  be equal.')
+                return redirect(f'/change-password/{token}/')
+                                  
+            user_obj = Customer.objects.get(id = user_id)
+            print("user_obj in cp",user_obj)
+            user_obj.set_password(new_password)
+            user_obj.save()
+            return redirect('/login')
+                   
+    except Exception as e:
+        print(e)
+    return render(request , 'change-password.html' , context)
+
+
+import uuid
+def ForgetPassword(request):
+    try:
+        if request.method == 'POST':
+            email= request.POST.get('email')
+            print("Email",email )
+            print("Customer",Customer.objects.filter(email=email).first())
+            if Customer.objects.filter(email=email).first() == None:
+                messages.success(request, 'No user found with this email.')
+                return redirect('/forget-password')
+            
+            # user_obj = User.objects.get(email = email)
+            token = str(uuid.uuid4())
+            cust_obj= Customer.objects.get(email = email)
+            cust_obj.forget_password_token = token
+            cust_obj.save()
+            print("Customer object",cust_obj)
+            send_forget_password_mail(cust_obj.email , token)
+            messages.success(request, 'An email is sent.')
+            return redirect('/forget-password')
+                  
+    except Exception as e:
+        print(e)
+    return render(request , 'forget-password.html')
 
 @login_required(login_url='main:login')
 def email(request, id):
