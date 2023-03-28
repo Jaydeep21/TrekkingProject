@@ -33,7 +33,7 @@ pip install django
 Once you have Django installed, you can clone the repository and navigate to the project directory:
 
 ```
-git clone https://github.com/rajdedhia10/AlpinsTrekking.git
+git clone https://github.com/Jaydeep21/TrekkingProject.git
 cd trekking-website
 ```
 
