@@ -40,7 +40,7 @@ def index(request):
             return HttpResponseRedirect(reverse("main:index"))        
     return render(request, 'index.html', {"treks": Hike.objects.all().order_by('-id')[:5]})
 
-
+@login_required(login_url='main:login')
 def singleTrek(request, id):
     trek = get_object_or_404(Hike, pk=id)
     user = get_object_or_404(Guide, pk=trek.user_id)
@@ -141,6 +141,9 @@ class Signup(View):
             return redirect(request.META.get('HTTP_REFERER', '/'))
     
     def post(self, request, *args, **kwargs):
+        if User.objects.filter(username=request.POST.get("email")).exists():
+            messages.error(request, 'Sorry, email id already exists. Try reseting password!')            
+            return redirect(request.META.get('HTTP_REFERER', '/'))
         user = Customer()
         user.username = request.POST.get("email")
         user.email = request.POST.get("email")

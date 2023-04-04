@@ -32,7 +32,7 @@
                     </p>
                     <hr class="space-sm" /><hr class="space-xs" />
                     {% if trek.booked %}
-                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancell Event</a>
+                        <a href="{% url 'main:cancel' trek.pk %}" class="btn btn-sm btn-circle btn-icon" style="background-color:#dc1717;border-color:#dc1717;"><i class="im-right-4"></i>Delete/Cancel Event</a>
                     {% else %}
                         <a href="{% url 'main:payment' trek.pk %}" class="btn btn-sm btn-circle btn-icon"><i class="im-right-4"></i>Book for ${{ trek.cost }}</a>
                     {% endif %}

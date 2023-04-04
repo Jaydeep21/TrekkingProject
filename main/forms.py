@@ -53,9 +53,14 @@ class PaymentForm(forms.Form):
             'autocomplete': 'off',  # disable autocomplete for security
             'required': True,
             'maxlength': 50,
+            'pattern': "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
         }
-    ))
-    card_number = forms.CharField(widget=forms.NumberInput(
+
+    ), error_messages={
+        'invalid': 'Please enter a valid Card name',
+        'required': 'Card Name is Required',
+    })
+    card_number = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'input-text',
             'placeholder': 'Enter Card Number',
@@ -63,25 +68,37 @@ class PaymentForm(forms.Form):
             'autocomplete': 'off',
             'required': True,
             'maxlength': 16,
+            'pattern': '\d{16}'
         }
-    ))
+    ), error_messages={
+        'invalid': 'Please enter a valid Card Number',
+        'required': 'Card Number is Required',
+    })
     expiry_date = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'input-text',
             'autocomplete': 'off',
             'required': True,
-            'placeholder': 'DD/YY',
+            'placeholder': 'MM/YY',
             'name': 'expiry_date',
-            'pattern': '\d{2}\/\d{2}',
+            'pattern': '(0[1-9]|1[0-2])\/\d{2}',
+            'maxlength': '5',
         }
-    ))
-    security_code = forms.CharField(widget=forms.NumberInput(
+    ), error_messages={
+        'invalid': 'Please enter a valid Card Number',
+        'required': 'Card Number is Required',
+    })
+    security_code = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'input-text',
             'placeholder': 'Enter Security Code',
             "name": "security_code",
             'autocomplete': 'off',
             'required': True,
-            'maxlength': 3,
+            'pattern': '\d{3,4}',
+            'maxlength': 4
         }
-    ))
+    ), error_messages={
+        'invalid': 'Please enter a valid security number',
+        'required': 'Security Code is Required',
+    })

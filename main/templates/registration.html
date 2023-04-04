@@ -48,17 +48,15 @@
                             <label for="check">You accept the terms of service and the privacy policy</label>
                         </div>
                         <input class="btn btn-sm" type="submit">
-                        {% comment %} <button class="btn btn-sm" type="submit">Register</button> {% endcomment %}
-                        {% if error %}
-                        <div class="success-box" style="display:block" >
-                            <div class="alert alert-success">User details stored successfully please login.</div>
-                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br><br>
+                                <div class="{{ message.tags }}-box">                    
+                                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                </div>
+                            {% endfor %}
                         {% endif %}
-                        {% if error %}
-                            <div class="error-box" style="display:block">
-                                <div class="alert alert-warning">{{ error }}</div>
-                            </div>
-                        {% endif %}
+                        
                     </form>
                 </div>
             </div>            
